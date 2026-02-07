@@ -29,6 +29,9 @@ module.exports.signup = async (req, res) => {
     // generate OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
+    // 👉 SEND OTP FIRST (FIX)
+    await sendOTP(email, otp);
+
     // create user (not verified yet)
     const newUser = new User({
       username,
@@ -40,9 +43,6 @@ module.exports.signup = async (req, res) => {
 
     const registeredUser = await User.register(newUser, password);
 
-    // send otp mail
-    await sendOTP(email, otp);
-
     // save temp user id
     req.session.tempUser = registeredUser._id;
 
@@ -51,7 +51,10 @@ module.exports.signup = async (req, res) => {
     res.redirect("/verify-otp");
 
   } catch (e) {
-    req.flash("error", e.message);
+
+    console.log("Signup Error:", e);
+
+    req.flash("error", "OTP sending failed. Try again.");
     res.redirect("/signup");
   }
 };
@@ -103,6 +106,9 @@ module.exports.verifyOTP = async (req, res) => {
     res.redirect("/login");
 
   } catch (err) {
+
+    console.log("OTP Error:", err);
+
     req.flash("error", "OTP verification failed");
     res.redirect("/signup");
   }
@@ -155,3 +161,4 @@ module.exports.Logout = (req, res) => {
     res.redirect("/listings");
   });
 };
+
