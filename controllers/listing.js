@@ -200,18 +200,30 @@ module.exports.renderEditForm = async (req, res) => {
 module.exports.updateListing = async (req, res) => {
   const listing = await Listing.findById(req.params.id);
 
-  Object.assign(listing, req.body.listing);
+  // ✅ Manually update fields
+  listing.title = req.body.listing.title;
+  listing.description = req.body.listing.description;
+  listing.price = req.body.listing.price;
+  listing.location = req.body.listing.location;
+  listing.mapLink = req.body.listing.mapLink;
+  listing.country = req.body.listing.country;
+  listing.category = req.body.listing.category;
+   // 🔥 FIXED
 
+  // Delete images
   if (req.body.deleteImages) {
     const filenames = JSON.parse(req.body.deleteImages);
-    for (let filename of filenames)
+
+    for (let filename of filenames) {
       await cloudinary.uploader.destroy(filename);
+    }
 
     listing.images = listing.images.filter(
       (img) => !filenames.includes(img.filename)
     );
   }
 
+  // Add new images
   if (req.files?.length > 0) {
     listing.images.push(
       ...req.files.map((f) => ({
@@ -226,6 +238,7 @@ module.exports.updateListing = async (req, res) => {
   req.flash("success", "Listing Updated!");
   res.redirect(`/listings/${listing._id}`);
 };
+
 
 // =======================
 // DELETE LISTING
