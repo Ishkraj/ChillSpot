@@ -1,0 +1,77 @@
+<link rel="stylesheet" href="/css/style.css">
+<% layout("layouts/boilerplate") %>
+
+<div class="container mt-4">
+
+  <h2 class="mb-4">📩 Booking Requests</h2>
+
+  <% if (bookings.length === 0) { %>
+    <p class="text-muted">No booking requests yet.</p>
+  <% } %>
+
+  <div class="row">
+
+    <% bookings.forEach((b) => { %>
+
+      <div class="col-md-6 mb-4">
+
+        <div class="host-card">
+
+          <h5 class="mb-2"><%= b.listing.title %></h5>
+
+          <p>👤 <b>Guest:</b> <%= b.user.username %></p>
+
+          <p>
+            📅 <b>Dates:</b>
+            <%= b.checkIn.toDateString() %> →
+            <%= b.checkOut.toDateString() %>
+          </p>
+
+          <p>👥 <b>Guests:</b> <%= b.guests %></p>
+
+          <p>💰 <b>Total:</b> ₹<%= b.totalPrice %></p>
+
+          <!-- STATUS -->
+
+          <% if (b.status === "pending") { %>
+
+            <span class="booking-status status-pending">
+              Pending
+            </span>
+
+            <div class="host-actions mt-3">
+
+              <form action="/bookings/<%= b._id %>/confirm" method="POST">
+                <button class="accept-btn">✔ Accept</button>
+              </form>
+
+              <form action="/bookings/<%= b._id %>/reject" method="POST">
+                <button class="reject-btn">✖ Reject</button>
+              </form>
+
+            </div>
+
+          <% } else if (b.status === "confirmed") { %>
+
+            <span class="booking-status status-confirmed">
+              Confirmed
+            </span>
+
+          <% } else { %>
+
+            <span class="booking-status status-rejected">
+              Rejected
+            </span>
+
+          <% } %>
+
+        </div>
+
+      </div>
+
+    <% }) %>
+
+  </div>
+
+</div>
+

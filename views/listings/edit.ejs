@@ -1,0 +1,109 @@
+<% layout("layouts/boilerplate") %>
+<body>
+  <div class="row">
+    <div class="col-8 offset-2 mt-3">
+      <h3>Edit Your Listing</h3>
+
+      <form
+        method="POST"
+        action="/listings/<%= listing._id %>?_method=PUT"
+        enctype="multipart/form-data"
+        class="needs-validation"
+        novalidate
+        id="editListingForm"
+      >
+
+        <!-- Title -->
+        <div class="mb-3">
+          <label class="form-label">Title</label>
+          <input name="listing[title]" type="text" class="form-control" value="<%= listing.title %>" required />
+        </div>
+
+        <!-- Description -->
+        <div class="mb-3">
+          <label class="form-label">Description</label>
+          <textarea name="listing[description]" class="form-control" rows="3" required><%= listing.description %></textarea>
+        </div>
+
+        <!-- Existing Images (Deletable with red X) -->
+        <div class="mb-3">
+          <label class="form-label">Current Images</label>
+          <div class="d-flex flex-wrap gap-3" id="existingImages">
+            <% listing.images.forEach((img, index) => { %>
+              <div class="position-relative" style="width: 120px;" data-filename="<%= img.filename %>">
+                <img src="<%= img.url %>" class="img-thumbnail" style="width: 100%; height: 100px; object-fit: cover;" />
+                <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 delete-image-btn" title="Remove image" style="border-radius: 50%; padding: 0.2rem 0.4rem;">&times;</button>
+              </div>
+            <% }) %>
+          </div>
+        </div>
+
+        <!-- Hidden input for deleted images -->
+        <input type="hidden" name="deleteImages" id="deleteImagesInput" />
+
+        <!-- Upload New Images -->
+        <div class="mb-3">
+          <label class="form-label">Upload New Images</label>
+          <input name="listing[images]" class="form-control" type="file" multiple accept="image/*" />
+        </div>
+
+        <!-- Price -->
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Price</label>
+            <input name="listing[price]" type="number" class="form-control" value="<%= listing.price %>" required />
+          </div>
+
+          <div class="col-md-8 mb-3">
+            <label class="form-label">Location</label>
+            <input name="listing[location]" type="text" class="form-control" value="<%= listing.location %>" required />
+          </div>
+        </div>
+
+        <!-- Category -->
+        <div class="mb-3">
+          <label class="form-label">Category</label>
+          <select name="listing[category]" class="form-select" required>
+            <% const categories = ["Trending", "Room", "Iconic Cities", "Mountain", "Castles", "Amazing Pools", "Camping", "Farm", "Lakes"]; %>
+            <% categories.forEach(cat => { %>
+              <option value="<%= cat %>" <%= listing.category === cat ? "selected" : "" %>><%= cat %></option>
+            <% }); %>
+          </select>
+        </div>
+
+        <!-- Country -->
+        <div class="mb-3">
+          <label class="form-label">Country</label>
+          <input name="listing[country]" type="text" class="form-control" value="<%= listing.country %>" required />
+        </div>
+
+        <!-- Submit -->
+        <button class="btn btn-dark">UPDATE</button>
+        <br>
+        <br>
+      </form>
+    </div>
+  </div>
+
+  <!-- Script: Handle Deletion and Form Submission -->
+  <script>
+    const deleteButtons = document.querySelectorAll(".delete-image-btn");
+    const deleteImagesInput = document.getElementById("deleteImagesInput");
+    const existingImages = document.getElementById("existingImages");
+
+    let imagesToDelete = [];
+
+    deleteButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const imageDiv = btn.parentElement;
+        const filename = imageDiv.getAttribute("data-filename");
+
+        if (filename) {
+          imagesToDelete.push(filename);
+          deleteImagesInput.value = JSON.stringify(imagesToDelete);
+          imageDiv.remove(); // Hide immediately
+        }
+      });
+    });
+  </script>
+</body>

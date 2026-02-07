@@ -1,0 +1,1888 @@
+/* =====================================
+   CHILLSPOT — ROYAL WINE LUXURY THEME
+   Premium • Elegant • Modern
+===================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --wine-dark: #7b1e3a;
+  --wine-light: #b83260;
+  --wine-glow: #ff8fb1;
+  --wine-soft: #f6e9ee;
+
+  --bg-light: #faf7f5;
+  --text-dark: #2b1b1b;
+
+  --dark-bg: #0f0f14;
+  --dark-card: #1b1b25;
+  --dark-border: #2a2a35;
+}
+
+body {
+  font-family: "Plus Jakarta Sans", "Poppins", sans-serif;
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  flex: 1;
+}
+
+/* =====================================
+   NAVBAR
+===================================== */
+
+.navbar {
+  height: 5.4rem;
+  background: linear-gradient(90deg, #ffffff, #fbf4f6);
+  border-bottom: 1px solid #ecd3dc;
+  box-shadow: 0 6px 25px rgba(123, 30, 58, 0.12);
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--wine-dark) !important;
+}
+
+.nav-link {
+  font-weight: 500;
+  margin-left: 0.8rem;
+  color: #3a1f28 !important;
+}
+
+.nav-link:hover {
+  color: var(--wine-light) !important;
+}
+
+/* =====================================
+   LISTING CARDS
+===================================== */
+
+.listing-card {
+  background: white;
+  border-radius: 22px;
+  overflow: hidden;
+  border: none;
+  margin-bottom: 2.2rem;
+  transition: all 0.35s ease;
+  position: relative;
+  box-shadow: 0 15px 40px rgba(123, 30, 58, 0.18);
+}
+
+.listing-card:hover {
+  transform: translateY(-9px);
+  box-shadow: 0 30px 70px rgba(123, 30, 58, 0.35);
+}
+
+.listing-card img {
+  width: 100%;
+  height: 270px;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.listing-card:hover img {
+  transform: scale(1.1);
+}
+
+/* PRICE BADGE */
+
+.price-badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: linear-gradient(135deg, var(--wine-dark), var(--wine-light));
+  color: white;
+  padding: 6px 16px;
+  border-radius: 30px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+}
+
+/* CARD BODY */
+
+.card-body {
+  padding: 1rem 1.1rem !important;
+}
+
+.card-text b {
+  font-size: 1.08rem;
+  font-weight: 600;
+  color: var(--wine-dark);
+}
+
+.tax-info {
+  font-size: 0.85rem;
+  color: #777;
+}
+
+/* =====================================
+   BUTTONS
+===================================== */
+
+.add-btn {
+  background: linear-gradient(135deg, var(--wine-dark), var(--wine-light));
+  border: none !important;
+  border-radius: 30px;
+  padding: 0.6rem 1.8rem;
+  font-weight: 600;
+  color: white;
+  transition: 0.35s ease;
+}
+
+.add-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 40px rgba(123, 30, 58, 0.55);
+}
+
+/* =====================================
+   FOOTER
+===================================== */
+
+.f-info {
+  background: var(--wine-soft);
+  padding: 2rem 0;
+  text-align: center;
+}
+
+.f-info-links a {
+  text-decoration: none;
+  color: #5c2a38;
+  font-size: 0.95rem;
+}
+
+.f-info-links a:hover {
+  color: var(--wine-dark);
+  text-decoration: underline;
+}
+
+.f-info-social i {
+  font-size: 1.4rem;
+  margin: 0 0.8rem;
+  color: #5c2a38;
+  transition: 0.3s;
+}
+
+.f-info-social i:hover {
+  color: var(--wine-dark);
+  transform: scale(1.25);
+}
+
+/* =====================================
+   MAP
+===================================== */
+
+#map {
+  height: 420px;
+  width: 100%;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(123, 30, 58, 0.3);
+}
+
+/* =====================================
+   FADE ANIMATION
+===================================== */
+
+.listing-card {
+  animation: fadeUp 0.6s ease;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =====================================
+   DARK MODE
+===================================== */
+
+body.dark-mode {
+  background-color: var(--dark-bg);
+  color: #f5f5f5;
+}
+
+body.dark-mode .navbar {
+  background: linear-gradient(90deg, #121219, #191924);
+  border-bottom: 1px solid var(--dark-border);
+}
+
+body.dark-mode .nav-link {
+  color: #f5f5f5 !important;
+}
+
+body.dark-mode .nav-link:hover {
+  color: var(--wine-glow) !important;
+}
+
+body.dark-mode .listing-card {
+  background: var(--dark-card);
+  box-shadow: 0 20px 55px rgba(0,0,0,0.85);
+}
+
+body.dark-mode .card-text b {
+  color: var(--wine-glow);
+}
+
+body.dark-mode .tax-info {
+  color: #bbb;
+}
+
+body.dark-mode .f-info {
+  background-color: #14141c;
+}
+
+body.dark-mode .f-info-links a {
+  color: #ccc;
+}
+
+body.dark-mode .add-btn {
+  background: linear-gradient(135deg, #b83260, #ff6b8b);
+}
+/* ===============================
+   DARK MODE — SOFT GREY FIX
+================================ */
+
+/* filter section background */
+body.dark-mode #filters-main {
+  background-color: #14141b;
+}
+
+body.dark-mode #filters {
+  background-color: #1c1c26;
+  border-radius: 18px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+}
+
+/* filter icons */
+body.dark-mode .filter {
+  background-color: #242432;
+  color: #ddd;
+}
+
+body.dark-mode .filter-label {
+  color: #ddd;
+}
+
+body.dark-mode .filter:hover {
+  background-color: #2f2f42;
+}
+
+/* active filter */
+body.dark-mode .active-filter {
+  background: linear-gradient(135deg, #b83260, #ff6b8b);
+  color: white;
+}
+
+/* toggle section */
+body.dark-mode .tax-toggle {
+  background-color: #1c1c26;
+  border-radius: 25px;
+  padding: 0.6rem 1.2rem;
+}
+
+/* cards */
+body.dark-mode .listing-card {
+  background-color: #1f1f2b;
+}
+
+/* card text */
+body.dark-mode .card-text {
+  color: #eaeaea;
+}
+
+/* price gst text */
+body.dark-mode .tax-info {
+  color: #bfbfbf;
+}
+
+/* footer */
+body.dark-mode footer,
+body.dark-mode .f-info {
+  background-color: #14141b;
+  border-top: 1px solid #2a2a35;
+}
+/* ===============================
+   DARK MODE CONTRAST FIX
+================================ */
+
+/* ---------- FILTER TEXT ---------- */
+body.dark-mode .filter-label {
+  color: #e5e5e5 !important;
+  font-weight: 500;
+}
+
+/* icons inside filters */
+body.dark-mode .filter i {
+  color: #f1f1f1;
+}
+
+/* inactive filters */
+body.dark-mode .filter {
+  background-color: #23232f;
+  border: 1px solid #2f2f3a;
+}
+
+/* hover */
+body.dark-mode .filter:hover {
+  background-color: #2f2f42;
+}
+
+/* ---------- ACTIVE FILTER (ALL) ---------- */
+body.dark-mode .active-filter {
+  background: linear-gradient(135deg, #8b1e3f, #c03a64);
+  color: #ffffff !important;
+  box-shadow: 0 8px 25px rgba(192, 58, 100, 0.5);
+}
+
+/* ---------- TOGGLE TEXT ---------- */
+body.dark-mode .form-check-label {
+  color: #eaeaea !important;
+  font-weight: 500;
+}
+
+/* toggle background */
+body.dark-mode .tax-toggle {
+  background-color: #1e1e28;
+  border: 1px solid #333344;
+}
+
+/* ---------- PRICE TEXT ---------- */
+body.dark-mode .card-text {
+  color: #f2f2f2 !important;
+}
+
+body.dark-mode .card-text b {
+  color: #ff9fb5 !important;
+}
+
+body.dark-mode .tax-info {
+  color: #d1d1d1 !important;
+}
+
+/* ---------- CARD FOOT AREA ---------- */
+body.dark-mode .card-body {
+  background-color: #1f1f2b;
+  border-top: 1px solid #2c2c38;
+}
+
+/* ---------- REMOVE TOO BRIGHT WHITE ---------- */
+body.dark-mode .listing-card img {
+  filter: brightness(0.95);
+}
+/* ===============================
+   FILTER ICON FIX – DARK MODE
+================================ */
+
+/* filter container */
+body.dark-mode #filters {
+  background-color: #1a1a25;
+  border: 1px solid #2c2c3a;
+}
+
+/* circle background */
+body.dark-mode .filter-icon {
+  background-color: #2a2a36 !important;
+  border: 1px solid #3a3a4a;
+}
+
+/* icon color */
+body.dark-mode .filter-icon i {
+  color: #ff9fb5 !important;
+  font-size: 1.15rem;
+}
+
+/* filter label */
+body.dark-mode .filter-label {
+  color: #dddddd !important;
+}
+
+/* hover effect */
+body.dark-mode .filter:hover .filter-icon {
+  background-color: #3a2a32;
+  box-shadow: 0 0 12px rgba(255, 159, 181, 0.45);
+}
+
+/* ACTIVE FILTER */
+body.dark-mode .active-filter {
+  background: linear-gradient(135deg, #7b1e3a, #c03a64) !important;
+  border: none;
+  box-shadow: 0 10px 30px rgba(192, 58, 100, 0.55);
+}
+
+body.dark-mode .active-filter .filter-icon {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+body.dark-mode .active-filter .filter-icon i {
+  color: #ffffff !important;
+}
+
+body.dark-mode .active-filter .filter-label {
+  color: #ffffff !important;
+  font-weight: 600;
+}
+/* ===============================
+   DARK MODE FOOTER FINAL FIX
+================================ */
+
+body.dark-mode footer {
+  background: #121219 !important;
+}
+
+body.dark-mode .f-info {
+  background: #121219 !important;
+}
+
+body.dark-mode .f-info * {
+  color: #d6d6d6 !important;
+}
+
+body.dark-mode .f-info-links a {
+  color: #bfbfbf !important;
+}
+
+body.dark-mode .f-info-links a:hover {
+  color: #ff9fb5 !important;
+}
+
+body.dark-mode .f-info-social i {
+  color: #bfbfbf !important;
+}
+
+body.dark-mode .f-info-social i:hover {
+  color: #ff9fb5 !important;
+}
+
+body.dark-mode hr {
+  border-color: #2b2b38 !important;
+}
+/* ===============================
+   DARK MODE TEXT VISIBILITY FIX
+================================ */
+
+/* listing title */
+body.dark-mode .card-text b {
+  color: #ffffff !important;
+}
+
+/* price text */
+body.dark-mode .card-text {
+  color: #eaeaea !important;
+}
+
+/* GST text */
+body.dark-mode .tax-info {
+  color: #cfcfcf !important;
+}
+
+/* category labels (Trending, Room etc) */
+body.dark-mode .filter-label {
+  color: #eaeaea !important;
+}
+
+/* toggle text */
+body.dark-mode .form-check-label {
+  color: #eaeaea !important;
+}
+
+/* footer headings */
+body.dark-mode footer h5,
+body.dark-mode footer h6,
+body.dark-mode footer strong {
+  color: #ffffff !important;
+}
+
+/* footer normal text */
+body.dark-mode footer p,
+body.dark-mode footer span {
+  color: #cfcfcf !important;
+}
+/* ===============================
+   DARK MODE – FIX ANCHOR TAGS
+================================ */
+
+/* footer anchor links */
+body.dark-mode a {
+  color: #eaeaea !important;
+}
+
+/* footer specific */
+body.dark-mode .f-info a {
+  color: #eaeaea !important;
+}
+
+body.dark-mode .f-info a:hover {
+  color: #ff9fb5 !important;
+}
+
+/* listing card clickable links */
+body.dark-mode .listing-link {
+  color: #ffffff !important;
+}
+
+/* remove blue/purple visited link issue */
+body.dark-mode a:visited {
+  color: #eaeaea !important;
+}
+/* ChillSpot navbar search */
+
+.brand-name {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #7b1e3a;
+}
+
+.nav-search {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: #f2f2f2;
+  padding: 0.45rem 1rem;
+  border-radius: 30px;
+  width: 270px;
+}
+
+.nav-search i {
+  color: #777;
+  font-size: 0.9rem;
+}
+
+.nav-search input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  font-size: 0.9rem;
+}
+
+.nav-search input::placeholder {
+  color: #777;
+}
+
+/* dark mode */
+body.dark-mode .nav-search {
+  background: #1f1f2a;
+}
+
+body.dark-mode .nav-search input {
+  color: #ffffff;
+}
+
+body.dark-mode .nav-search input::placeholder {
+  color: #aaaaaa;
+}
+
+body.dark-mode .nav-search i {
+  color: #bbbbbb;
+}
+/* ===============================
+   CHILLSPOT LOGO COLOR
+================================ */
+
+.navbar-brand i {
+  color: #E63946;
+  font-size: 2rem;
+}
+
+.brand-name {
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  color: #E63946;
+}
+
+/* dark mode logo glow */
+body.dark-mode .navbar-brand i,
+body.dark-mode .brand-name {
+  color: #ff6b8b;
+  text-shadow: 0 0 12px rgba(255, 107, 139, 0.45);
+}
+/* ChillSpot brand icon */
+
+.chill-icon {
+  font-size: 2rem;
+  color: #E63946;
+}
+
+/* dark mode glow */
+body.dark-mode .chill-icon {
+  color: #ff6b8b;
+  text-shadow: 0 0 12px rgba(255, 107, 139, 0.45);
+}
+/* ===============================
+   CONFIDENCE METER
+================================ */
+
+.confidence-box {
+  background: rgba(0,0,0,0.03);
+  padding: 1.2rem;
+  border-radius: 14px;
+  margin-top: 1.5rem;
+}
+
+body.dark-mode .confidence-box {
+  background: #1c1c26;
+}
+
+.confidence-percent {
+  color: #e63946;
+  font-weight: 700;
+}
+
+.confidence-bar {
+  width: 100%;
+  height: 10px;
+  background: #ddd;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.confidence-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff4d6d, #ff9f43);
+  border-radius: 20px;
+  transition: width 0.6s ease;
+}
+
+.confidence-text {
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+.confidence-text.trusted {
+  color: #2ecc71;
+}
+
+.confidence-text.good {
+  color: #f1c40f;
+}
+
+.confidence-text.low {
+  color: #e74c3c;
+}
+/* ===============================
+   TRUST ANALYZER
+================================ */
+
+.trust-box {
+  background: #f9f9fb;
+  padding: 1.2rem 1.4rem;
+  border-radius: 16px;
+  border-left: 6px solid #e63946;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.08);
+}
+
+body.dark-mode .trust-box {
+  background: #1c1c26;
+  border-left-color: #ff7a95;
+}
+
+.trust-title {
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+}
+
+.trust-list {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+.trust-list li {
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+}
+/* ===============================
+   SMART TRUST WARNING
+================================ */
+
+.trust-warning {
+  padding: 1rem 1.3rem;
+  border-radius: 14px;
+  font-weight: 600;
+  margin-top: 1.2rem;
+}
+
+.trust-warning.warning {
+  background: #fff6d8;
+  color: #9a6b00;
+  border-left: 6px solid #f4b400;
+}
+
+.trust-warning.danger {
+  background: #ffe5e8;
+  color: #b3001b;
+  border-left: 6px solid #e63946;
+}
+
+body.dark-mode .trust-warning.warning {
+  background: #2b250f;
+  color: #f5c451;
+}
+
+body.dark-mode .trust-warning.danger {
+  background: #2a1216;
+  color: #ff9fa9;
+}
+.rating-box {
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+.rating-value {
+  font-weight: 600;
+}
+
+.review-count {
+  color: #777;
+  font-size: 0.85rem;
+}
+
+.star {
+  color: #f5a623;
+}
+
+.new-badge {
+  background: #e5f0ff;
+  color: #2563eb;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+/* ===============================
+   DARK MODE — REVIEW TEXT FIX
+================================ */
+
+body.dark-mode .rating-line {
+  color: #f1f1f1;
+}
+
+body.dark-mode .rating-line.new {
+  color: #ff9fb5;
+}
+
+body.dark-mode .review-count {
+  color: #cfcfcf;
+}
+
+body.dark-mode .gst-text {
+  color: #bbbbbb;
+}
+
+body.dark-mode .per-night {
+  color: #cccccc;
+}
+/* ===============================
+   DARK MODE — REVIEW FIX
+================================ */
+
+body.dark-mode h4,
+body.dark-mode label,
+body.dark-mode .form-label,
+body.dark-mode .confidence-text,
+body.dark-mode .trust-title,
+body.dark-mode .trust-list li {
+  color: #f1f1f1 !important;
+}
+
+/* textarea & input */
+body.dark-mode textarea,
+body.dark-mode input,
+body.dark-mode select {
+  background-color: #1c1c25 !important;
+  color: #ffffff !important;
+  border: 1px solid #3a3a48 !important;
+}
+
+body.dark-mode textarea::placeholder,
+body.dark-mode input::placeholder {
+  color: #9a9aa8 !important;
+}
+
+/* review card */
+body.dark-mode .card {
+  background-color: #181820 !important;
+  color: #ffffff !important;
+  border: 1px solid #2e2e3a !important;
+}
+
+/* star rating */
+body.dark-mode .starability-slot label {
+  color: #bbbbbb !important;
+}
+
+body.dark-mode .starability-slot input:checked ~ label,
+body.dark-mode .starability-slot label:hover,
+body.dark-mode .starability-slot label:hover ~ label {
+  color: gold !important;
+}
+
+/* submit button */
+body.dark-mode button {
+  background-color: #2a2a38;
+  color: #fff;
+  border: 1px solid #444;
+}
+
+body.dark-mode button:hover {
+  background-color: #3b3b52;
+}
+/* =====================================
+   DARK MODE FINAL FIX – ChillSpot
+===================================== */
+
+/* prevent hidden highlight */
+::selection {
+  background: #ff5a5f;
+  color: #ffffff;
+}
+
+/* card background fix */
+body.dark-mode .card,
+body.dark-mode .card-body,
+body.dark-mode .bg-light {
+  background-color: #181820 !important;
+  color: #ffffff !important;
+}
+
+/* text visibility */
+body.dark-mode p,
+body.dark-mode span,
+body.dark-mode strong,
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6,
+body.dark-mode label {
+  color: #f1f1f1 !important;
+}
+
+/* price color */
+body.dark-mode .text-primary {
+  color: #4da3ff !important;
+}
+
+/* location text */
+body.dark-mode .text-secondary {
+  color: #b3b3c7 !important;
+}
+
+/* reviews box */
+body.dark-mode textarea,
+body.dark-mode input {
+  background-color: #1f1f2a !important;
+  color: #ffffff !important;
+  border: 1px solid #3a3a4a !important;
+}
+
+/* textarea placeholder */
+body.dark-mode textarea::placeholder {
+  color: #9a9ab0 !important;
+}
+
+/* remove odd white strip */
+body.dark-mode .confidence-box,
+body.dark-mode .trust-box {
+  background-color: #1b1b25 !important;
+  color: #ffffff !important;
+  border-left: 4px solid #ff5a5f;
+}
+
+/* review cards */
+body.dark-mode .card.shadow-sm {
+  background-color: #191924 !important;
+  border: 1px solid #2f2f3a !important;
+}
+
+/* stars visibility */
+body.dark-mode .starability-slot label {
+  color: #888 !important;
+}
+
+body.dark-mode .starability-slot label:hover,
+body.dark-mode .starability-slot input:checked ~ label {
+  color: gold !important;
+}
+
+/* ===============================
+   MOBILE DROPDOWN – PREMIUM UI
+================================ */
+
+.custom-dropdown {
+  position: absolute;
+  top: 52px;
+  right: 0;
+  width: 210px;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 8px 0;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+  display: none;
+  z-index: 99999;
+  animation: dropdownFade 0.25s ease;
+}
+
+/* animation */
+@keyframes dropdownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.custom-dropdown li {
+  list-style: none;
+}
+
+.custom-dropdown li a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 20px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #222;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border-radius: 8px;
+}
+
+/* hover */
+.custom-dropdown li a:hover {
+  background: #f5f7fa;
+  color: #ff3b3b;
+  transform: translateX(4px);
+}
+
+/* divider look */
+.custom-dropdown li:not(:last-child) {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* hamburger button look */
+#mobileMenuBtn {
+  border-radius: 10px;
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  background: #fff;
+}
+
+#mobileMenuBtn:hover {
+  background: #f8f9fa;
+}
+/* ===============================
+   DARK MODE – MOBILE DROPDOWN
+================================ */
+
+/* light mode default (safety) */
+.custom-dropdown {
+  background: #ffffff;
+  color: #222;
+}
+
+/* 🌙 dark mode */
+body.dark-mode .custom-dropdown {
+  background: #1c1f2a;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+/* links */
+body.dark-mode .custom-dropdown li a {
+  color: #e6e6e6;
+}
+
+/* hover effect */
+body.dark-mode .custom-dropdown li a:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ff5b5b;
+}
+
+/* divider */
+body.dark-mode .custom-dropdown li:not(:last-child) {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* hamburger button */
+body.dark-mode #mobileMenuBtn {
+  background: #1b1e28;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+body.dark-mode #mobileMenuBtn:hover {
+  background: #242837;
+}
+
+/* ===============================
+   MOBILE SEARCH FINAL FIX
+================================ */
+
+.mobile-search-wrapper {
+  width: 100%;
+}
+
+/* mobile view */
+@media (max-width: 768px) {
+
+  .navbar .container-fluid {
+    flex-wrap: wrap;
+  }
+
+  /* search goes to next row */
+  .mobile-search-wrapper {
+    order: 3;
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .nav-search {
+    width: 100%;
+    height: 38px;
+    border-radius: 24px;
+    padding: 0 14px;
+  }
+
+  .nav-search input {
+    width: 100%;
+    font-size: 14px;
+  }
+}
+/* ===============================
+   MOBILE NAVBAR FINAL ALIGNMENT
+================================ */
+
+.navbar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* mobile layout */
+@media (max-width: 768px) {
+
+  .navbar-top {
+    gap: 8px;
+  }
+
+  /* logo fix */
+  .navbar-brand {
+    flex-shrink: 0;
+  }
+
+  /* search stays in middle */
+  .mobile-search-wrapper {
+    flex: 1;
+    max-width: 190px;
+  }
+
+  .nav-search {
+    height: 34px;
+    padding: 0 10px;
+    border-radius: 20px;
+  }
+
+  .nav-search input {
+    font-size: 13px;
+  }
+
+  /* hamburger stays right */
+  #mobileMenuBtn {
+    flex-shrink: 0;
+    margin-left: 6px;
+  }
+}
+@media (max-width: 768px) {
+
+  .nav-search {
+    flex: 1;
+    max-width: 180px;
+    height: 34px;
+    border-radius: 20px;
+    padding: 0 10px;
+  }
+
+  .nav-search input {
+    font-size: 13px;
+  }
+}
+/* ===============================
+   MOBILE TOGGLE BUTTON FIX
+================================ */
+
+#mobileMenuBtn {
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  color: #333;
+}
+
+/* remove bootstrap white flash */
+#mobileMenuBtn:focus,
+#mobileMenuBtn:active,
+#mobileMenuBtn:focus-visible {
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* dark mode */
+body.dark-mode #mobileMenuBtn {
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+}
+
+body.dark-mode #mobileMenuBtn:focus,
+body.dark-mode #mobileMenuBtn:active {
+  background: transparent !important;
+}
+/* MOBILE NAVBAR QUICK FIX */
+@media (max-width: 768px) {
+
+  /* brand ko chhota karo */
+  .navbar-brand {
+    font-size: 1.1rem;
+    gap: 4px;
+  }
+
+  /* search ko thoda compact */
+  .nav-search {
+    max-width: 170px;
+    height: 32px;
+    padding: 0 8px;
+  }
+
+  .nav-search input {
+    font-size: 12px;
+  }
+
+  /* toggle ko force right me rakho */
+  #mobileMenuBtn {
+    margin-left: auto;
+    padding: 4px 8px;
+  }
+}
+@media (max-width: 768px) {
+  #mobileMenuBtn {
+    position: absolute;
+    right: -30px;
+    top: -30px;
+  }
+}
+.custom-dropdown button.dropdown-item {
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  padding: 10px 20px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.custom-dropdown button.dropdown-item:hover {
+  background: rgba(0,0,0,0.05);
+}
+
+body.dark-mode .custom-dropdown button.dropdown-item:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+/* ===============================
+   RESERVATION BOX
+================================ */
+
+.reserve-box {
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e6e6e6;
+}
+
+/* price */
+.reserve-box h5 {
+  color: #111;
+}
+
+/* labels */
+.reserve-box label {
+  color: #555;
+  font-weight: 500;
+}
+
+/* inputs */
+.reserve-box input,
+.reserve-box select {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  color: #111;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.reserve-box input:focus,
+.reserve-box select:focus {
+  outline: none;
+  border-color: #ff385c;
+  box-shadow: 0 0 0 2px rgba(255, 56, 92, 0.15);
+}
+
+/* total */
+.reserve-box span {
+  color: #444;
+}
+
+.reserve-box strong {
+  color: #111;
+}
+
+/* reserve button */
+.reserve-box button {
+  background: #ff385c;
+  border: none;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.reserve-box button:hover {
+  background: #e03152;
+}
+
+/* small text */
+.reserve-box p {
+  color: #777;
+}
+
+/* ===============================
+   DARK MODE GLOBAL
+================================ */
+
+body.dark-mode {
+  background-color: #0f1117;
+  color: #eaeaea;
+}
+
+/* text visibility */
+body.dark-mode p,
+body.dark-mode span,
+body.dark-mode label,
+body.dark-mode small,
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5 {
+  color: #eaeaea !important;
+}
+
+/* listing card */
+body.dark-mode .card,
+body.dark-mode .listing-card {
+  background: #161a22 !important;
+  color: #fff;
+}
+
+/* reserve box FIX */
+body.dark-mode .reserve-box {
+  background: #161a22 !important;
+  color: #ffffff !important;
+  border: 1px solid #2a2f3a;
+}
+
+/* inputs */
+body.dark-mode .reserve-box input,
+body.dark-mode .reserve-box select {
+  background: #0f1117 !important;
+  color: #ffffff !important;
+  border: 1px solid #3a3f4b;
+}
+
+/* placeholder */
+body.dark-mode input::placeholder {
+  color: #aaa !important;
+}
+
+/* total price */
+body.dark-mode #totalPrice {
+  color: #fff !important;
+}
+
+/* reserve button */
+body.dark-mode .reserve-box button {
+  background: #ff385c !important;
+  color: #fff !important;
+}
+
+
+
+/* ===============================
+   BOOKING STATUS UI
+================================ */
+
+.badge-btn {
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.badge-btn.accept {
+  background: #e6f6ec;
+  color: #1e7f43;
+}
+
+.badge-btn.accept:hover {
+  background: #c9eed9;
+}
+
+.badge-btn.reject {
+  background: #fdeaea;
+  color: #b42318;
+}
+
+.badge-btn.reject:hover {
+  background: #f9cfcf;
+}
+
+.status-badge {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.status-badge.confirmed {
+  background: #e6f6ec;
+  color: #1e7f43;
+}
+
+.status-badge.rejected {
+  background: #fdeaea;
+  color: #b42318;
+}
+
+body.dark-mode .badge-btn.accept {
+  background: #123d2a;
+  color: #7ef0b1;
+}
+
+body.dark-mode .badge-btn.reject {
+  background: #3d1a1a;
+  color: #ff9b9b;
+}
+
+body.dark-mode .status-badge.confirmed {
+  background: #123d2a;
+  color: #7ef0b1;
+}
+
+body.dark-mode .status-badge.rejected {
+  background: #3d1a1a;
+  color: #ff9b9b;
+}
+
+/* =====================
+   PROFILE PAGE
+===================== */
+
+.profile-wrapper {
+  min-height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-card {
+  width: 380px;
+  background: var(--card-bg, #fff);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+
+.profile-header {
+  background: linear-gradient(135deg, #ff385c, #ff6f61);
+  color: #fff;
+  text-align: center;
+  padding: 30px 20px;
+}
+
+.profile-avatar {
+  font-size: 48px;
+  background: rgba(255,255,255,0.2);
+  width: 80px;
+  height: 80px;
+  margin: auto;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-header h2 {
+  margin-top: 12px;
+  font-weight: 700;
+}
+
+.profile-role {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.profile-body {
+  padding: 20px;
+}
+
+.profile-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.profile-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.profile-btn {
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 10px;
+  background: #f5f5f5;
+  color: #111;
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.profile-btn:hover {
+  background: #eaeaea;
+}
+
+.profile-btn.danger {
+  background: #ffe6e6;
+  color: #d00000;
+}
+
+/* DARK MODE */
+body.dark-mode .profile-card {
+  background: #1e1e1e;
+  color: #eee;
+}
+
+body.dark-mode .profile-btn {
+  background: #2a2a2a;
+  color: #eee;
+}
+
+body.dark-mode .profile-btn:hover {
+  background: #333;
+}
+/* =====================
+   PROFILE PAGE
+===================== */
+
+.profile-card {
+  background: white;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 5px 18px rgba(0,0,0,0.12);
+  font-family: "Inter", sans-serif;
+}
+
+/* Header */
+.profile-header {
+  background: linear-gradient(135deg, #ff4b4b, #ff7b7b);
+  color: white;
+  padding: 30px 20px;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  background: white;
+  color: #ff2e2e;
+  border-radius: 50%;
+  font-size: 40px;
+  line-height: 80px;
+  margin: auto;
+  margin-bottom: 10px;
+}
+
+.role {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* Body */
+.profile-body {
+  padding: 20px;
+}
+
+.profile-link {
+  display: block;
+  padding: 10px;
+  margin: 6px 0;
+  background: #f7f7f7;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #111;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.profile-link:hover {
+  background: #ff2e2e;
+  color: white;
+}
+
+.profile-link.logout {
+  background: #ffe5e5;
+  color: red;
+}
+
+.profile-link.logout:hover {
+  background: red;
+  color: white;
+}
+
+/* DARK MODE */
+
+body.dark-mode .profile-card {
+  background: #161a25;
+  color: white;
+}
+
+body.dark-mode .profile-link {
+  background: #22283a;
+  color: white;
+}
+
+body.dark-mode .profile-link:hover {
+  background: #ff2e2e;
+}
+/* ======================
+   BOOKINGS PAGE
+====================== */
+
+.booking-card {
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.booking-card h5 {
+  font-weight: 600;
+}
+
+.booking-status {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+}
+
+.status-pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status-confirmed {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status-rejected {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+body.dark-mode .booking-card {
+  background: #161a25;
+  color: white;
+}
+/* ======================
+   HOST DASHBOARD
+====================== */
+
+.host-card {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+}
+
+.host-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.accept-btn {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+}
+
+.reject-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+}
+
+body.dark-mode .host-card {
+  background: #1b2030;
+  color: white;
+}
+
+/* ======================
+   NOTIFICATION DOT
+====================== */
+
+.notify-dot {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 9px;
+  height: 9px;
+  background: red;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.profile-btn {
+  position: relative;
+}
+body.dark-mode .notify-dot {
+  border-color: #161a25;
+}
+/* ========================= */
+/* MOBILE SEARCH FIX */
+/* ========================= */
+
+@media (max-width: 768px) {
+
+  /* Search container */
+  .search-container,
+  .search-box,
+  .navbar .search-bar {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden;
+  }
+
+
+  /* Search input */
+  .search-container input,
+  .search-box input,
+  .navbar input[type="search"],
+  .navbar input[type="text"] {
+    width: 100% !important;
+    min-width: 0 !important;
+
+    box-sizing: border-box;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+
+  /* Placeholder fix */
+  .navbar input::placeholder {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+
+  /* Remove side overflow */
+  .navbar form {
+    max-width: 100% !important;
+    overflow: hidden;
+  }
+
+}
+
+/* ===========================
+GLOBAL NAVBAR
+=========================== */
+
+.navbar-custom {
+background: #ffffff;
+box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+padding: 0.7rem 1.5rem;
+font-family: "Inter", sans-serif;
+}
+
+.navbar-brand {
+font-size: 1.5rem;
+font-weight: 700;
+color: #ff2e2e !important;
+}
+
+.nav-link {
+color: #111 !important;
+font-weight: bolder;
+}
+
+.nav-link:hover {
+color: #ff2e2e !important;
+}
+
+/* ===========================
+SEARCH BAR
+=========================== */
+
+.nav-search {
+display: flex;
+align-items: center;
+background: #f2f2f2;
+padding: 6px 12px;
+border-radius: 25px;
+gap: 8px;
+}
+
+.nav-search input {
+border: none;
+outline: none;
+background: transparent;
+font-size: 0.9rem;
+width: 180px;
+}
+
+/* ===========================
+PROFILE ICON
+=========================== */
+
+.profile-btn {
+background: #ff2e2e;
+color: white;
+border: none;
+width: 38px;
+height: 38px;
+border-radius: 50%;
+font-size: 18px;
+cursor: pointer;
+}
+
+.profile-btn:hover {
+background: #e62222;
+}
+
+/* ===========================
+DROPDOWN MENU
+=========================== */
+
+.profile-dropdown {
+position: absolute;
+right: 0;
+top: 48px;
+background: white;
+width: 200px;
+border-radius: 12px;
+box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+display: none;
+z-index: 1000;
+}
+
+.profile-dropdown a {
+display: block;
+padding: 10px 14px;
+text-decoration: none;
+color: #111;
+font-weight: 500;
+}
+
+.profile-dropdown a:hover {
+background: #f5f5f5;
+color: #ff2e2e;
+}
+
+/* ===========================
+DARK MODE
+=========================== */
+
+body.dark-mode .navbar-custom {
+background: #0f1117;
+}
+
+body.dark-mode .nav-link,
+body.dark-mode .navbar-brand {
+color: #ffffff !important;
+}
+
+body.dark-mode .nav-search {
+background: #1b1f2a;
+}
+
+body.dark-mode .nav-search input {
+color: white;
+}
+
+body.dark-mode .profile-dropdown {
+background: #1b1f2a;
+}
+
+body.dark-mode .profile-dropdown a {
+color: white;
+}
+
+body.dark-mode .profile-dropdown a:hover {
+background: #2a2f3d;
+}
+
+
+
+
+
+
+
+@media (max-width: 768px) {
+  .desktop-nav {
+    display: none !important;
+  }
+
+  .mobile-dropdown {
+    display: block !important;
+  }
+}
+
+

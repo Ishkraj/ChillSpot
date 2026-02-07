@@ -1,0 +1,29 @@
+<link rel="stylesheet" href="/css/style.css">
+<% layout("layouts/boilerplate") %>
+
+
+<div class="container my-4">
+  <h2>🧳 My Bookings</h2>
+
+  <% if (bookings.length === 0) { %>
+    <p class="text-muted">No bookings yet.</p>
+  <% } %>
+
+  <% bookings.forEach(b => { %>
+    <div class="host-booking-card">
+      <h5><%= b.listing.title %></h5>
+
+      <p>
+        📅 <%= b.checkIn.toDateString() %> →
+        <%= b.checkOut.toDateString() %>
+      </p>
+
+      <p>👥 Guests: <%= b.guests %></p>
+      <p>💰 Total: ₹<%= b.totalPrice %></p>
+
+      <span class="status-badge <%= b.status %>">
+        <%= b.status.toUpperCase() %>
+      </span>
+    </div>
+  <% }) %>
+</div>

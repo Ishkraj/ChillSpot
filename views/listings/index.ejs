@@ -1,0 +1,370 @@
+<% layout("layouts/boilerplate") %>
+<style>
+  #filters {
+    display: flex;
+    flex-wrap: wrap; /* allows wrapping to next line if needed */
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+    padding: 1rem 2rem;
+    background: #fff;
+    border-bottom: 1px solid #eee;
+  }
+
+  /* FILTER ITEM */
+  .filter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #666;
+    font-size: 0.85rem;
+    gap: 0.4rem;
+    width: 80px;
+    transition: all 0.2s ease-in-out;
+  }
+
+  /* CIRCLE ICON BACKGROUND */
+  .filter-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  }
+
+  .filter-icon i {
+    font-size: 1.5rem;
+    color: #888;
+    transition: color 0.2s ease;
+  }
+
+  .filter-label {
+    font-size: 0.75rem;
+    text-align: center;
+    color: #444;
+  }
+
+  .filter:hover .filter-icon {
+    background-color: #e4e4e4;
+    transform: scale(1.05);
+  }
+
+  .filter:hover i {
+    color: #000;
+  }
+
+  /* ACTIVE FILTER AS CIRCLE WITH COLOR */
+  .active-filter .filter-icon {
+    background-color: #4f8df7;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .active-filter .filter-icon i {
+    color: #fff;
+  }
+
+  .active-filter .filter-label {
+    font-weight: 600;
+    color: #4f8df7;
+  }
+
+  /* TOGGLE STYLING */
+  .tax-toggle {
+    border: 1px solid #aaa;
+    border-radius: 2rem;
+    height: 3.2rem;
+    padding: 0 1.2rem;
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #333;
+    white-space: nowrap;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease-in-out;
+    margin-left: auto;
+  }
+
+  .tax-toggle:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  /* RESPONSIVE BEHAVIOR */
+  @media (max-width: 768px) {
+    #filters {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.8rem;
+    }
+
+    .filter {
+      width: 72px;
+    }
+
+    .filter-icon {
+      width: 56px;
+      height: 56px;
+    }
+
+    .filter-icon i {
+      font-size: 1.2rem;
+    }
+
+    .filter-label {
+      font-size: 0.7rem;
+    }
+
+    .tax-toggle {
+      width: 100%;
+      justify-content: center;
+      margin-left: 0;
+      margin-top: 1rem;
+    }
+  }
+
+  .listing-link {
+    text-decoration: none;
+    color: inherit;
+    margin-bottom: 1.5rem;
+  }
+
+  .listing-card {
+    border: none;
+    border-radius: 1rem;
+    text-align: center;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+
+  .listing-link:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+  }
+
+  .listing-card img {
+    object-fit: cover;
+    width: 100%;
+    height: 15rem;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+  }
+
+  .card-body {
+    padding: 2rem;
+    background: #fff;
+  }
+
+  .card-text b {
+    font-size: 1.05rem;
+    color: #333;
+  }
+
+  .card-text {
+    font-size: 0.95rem;
+    color: #444;
+  }
+
+  .tax-info {
+    font-size: 0.8rem;
+    color: #888;
+  }
+
+  .row {
+    padding: 0 1rem;
+  }
+
+  @media (max-width: 768px) {
+    .row {
+      padding: 0 1rem;
+    }
+
+    .listing-card {
+      margin-bottom: 1rem;
+    }
+  }
+  
+</style>
+
+<body>
+
+  <div id="filters-main">
+    <div id="filters">
+  
+      <!-- Filter Buttons -->
+      <a href="/listings" class="filter <%= !category ? 'active-filter' : '' %>">
+        <div class="filter-icon"><i class="fa-solid fa-house"></i></div>
+        <p class="filter-label">All</p>
+      </a>
+  
+      <a href="/listings/category/Trending" class="filter <%= category === 'Trending' ? 'active-filter' : '' %>">
+        <div class="filter-icon"><i class="fa-solid fa-fire"></i></div>
+        <p class="filter-label">Trending</p>
+      </a>
+  
+      <a href="/listings/category/Room" class="filter <%= category === 'Room' ? 'active-filter' : '' %>">
+        <div class="filter-icon"><i class="fa-solid fa-bed"></i></div>
+        <p class="filter-label">Room</p>
+      </a>
+  
+      <a href="/listings/category/Iconic Cities" class="filter <%= category === 'Iconic Cities' ? 'active-filter' : '' %>">
+        <div class="filter-icon"><i class="fa-solid fa-mountain-city"></i></div>
+        <p class="filter-label">Iconic Cities</p>
+      </a>
+  
+      <a href="/listings/category/Mountain" class="filter <%= category === 'Mountain' ? 'active-filter' : '' %>">
+        <div class="filter-icon"><i class="fa-solid fa-mountain"></i></div>
+        <p class="filter-label">Mountain</p>
+      </a>
+  
+      <a href="/listings/category/Castles" class="filter <%= category === 'Castles' ? 'active-filter' : '' %>">
+        <div class="filter-icon"><i class="fa-brands fa-fort-awesome"></i></div>
+        <p class="filter-label">Castles</p>
+      </a>
+  
+      <a href="/listings/category/Amazing Pools" class="filter <%= category === 'Amazing Pools' ? 'active-filter' : '' %>">
+        <div class="filter-icon"><i class="fa-solid fa-person-swimming"></i></div>
+        <p class="filter-label">Pools</p>
+      </a>
+  
+      <a href="/listings/category/Camping" class="filter <%= category === 'Camping' ? 'active-filter' : '' %>">
+        <div class="filter-icon"><i class="fa-solid fa-campground"></i></div>
+        <p class="filter-label">Camping</p>
+      </a>
+  
+      <a href="/listings/category/Farm" class="filter <%= category === 'Farm' ? 'active-filter' : '' %>">
+        <div class="filter-icon"><i class="fa-solid fa-cow"></i></div>
+        <p class="filter-label">Farm</p>
+      </a>
+  
+      <a href="/listings/category/Lakes" class="filter <%= category === 'Lakes' ? 'active-filter' : '' %>">
+        <div class="filter-icon"><i class="fa-solid fa-water"></i></div>
+        <p class="filter-label">Lakes</p>
+      </a>
+  
+      <!-- GST TOGGLE -->
+      <div class="tax-toggle">
+        <div class="form-check form-switch form-check-reverse">
+          <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+          <label class="form-check-label">
+            Display total after taxes
+          </label>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+  
+  <!-- LISTINGS GRID -->
+  <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-2 px-3">
+  
+    <% listings.forEach((listing, index) => { %>
+  
+      <a href="/listings/<%= listing._id %>" class="listing-link">
+  
+        <div class="card col listing-card">
+  
+          <% if (listing.images && listing.images.length > 0) { %>
+            <div id="carousel<%= index %>" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-inner">
+                <% listing.images.forEach((img, imgIndex) => { %>
+                  <div class="carousel-item <%= imgIndex === 0 ? 'active' : '' %>">
+                    <img src="<%= img.url %>" class="d-block w-100" style="height:20rem;object-fit:cover;">
+                  </div>
+                <% }) %>
+              </div>
+            </div>
+          <% } else { %>
+            <img src="/images/default.jpg" class="d-block w-100" style="height:20rem;object-fit:cover;">
+          <% } %>
+  
+          <div class="card-body">
+            <p class="card-text">
+          
+              <!-- TITLE -->
+              <b class="listing-title"><%= listing.title %></b><br>
+          
+              <!-- PRICE WRAPPER -->
+              <span class="price-wrapper">
+          
+                <!-- BASE PRICE -->
+                <span
+                  class="base-price"
+                  data-price="<%= listing.price %>"
+                >
+                  ₹ <%= listing.price.toLocaleString() %>
+                </span>
+          
+                <!-- GST LABEL -->
+                <span class="gst-text">
+                  &nbsp;+18% GST
+                </span>
+          
+                <!-- GST INCLUDED PRICE -->
+                <span class="gst-price d-none">
+                  ₹ <%= Math.round(listing.price * 1.18).toLocaleString() %>
+                </span>
+          
+                <span class="per-night"> / night</span>
+          
+              </span>
+          
+              <!-- ⭐ REVIEW INFO -->
+              <% if (listing.reviews && listing.reviews.length > 0) { %>
+                <div class="rating-line">
+                  ⭐ <%= listing.avgRating %>
+                  <span class="review-count">
+                    (<%= listing.reviews.length %> reviews)
+                  </span>
+                </div>
+              <% } else { %>
+                <div class="rating-line new">
+                  🆕 New stay
+                </div>
+              <% } %>
+          
+            </p>
+          </div>
+          
+  
+        </div>
+      </a>
+  
+    <% }) %>
+  
+  </div>
+  
+  <script>
+    const toggle = document.getElementById("flexSwitchCheckDefault");
+  
+    toggle.addEventListener("change", () => {
+      const basePrices = document.querySelectorAll(".base-price");
+      const gstTexts = document.querySelectorAll(".gst-text");
+      const gstPrices = document.querySelectorAll(".gst-price");
+  
+      basePrices.forEach((price, i) => {
+        if (toggle.checked) {
+          // SHOW final price
+          price.classList.add("d-none");
+          gstTexts[i].classList.add("d-none");
+          gstPrices[i].classList.remove("d-none");
+        } else {
+          // SHOW base price
+          price.classList.remove("d-none");
+          gstTexts[i].classList.remove("d-none");
+          gstPrices[i].classList.add("d-none");
+        }
+      });
+    });
+  </script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+  

@@ -1,0 +1,57 @@
+<link rel="stylesheet" href="/css/style.css">
+<% layout("layouts/boilerplate") %>
+
+<div class="container py-5">
+
+  <div class="row justify-content-center">
+
+    <div class="col-md-6 col-lg-4">
+
+      <div class="profile-card text-center">
+
+        <!-- AVATAR -->
+        <div class="profile-header">
+          <div class="avatar">👤</div>
+
+          <h3><%= currUser.username %></h3>
+          <p class="role">Host & Guest</p>
+        </div>
+
+        <!-- INFO -->
+        <div class="profile-body">
+
+          <p>
+            <strong>Email:</strong><br>
+            <%= currUser.email %>
+          </p>
+
+          <hr>
+
+          <a href="/bookings" class="profile-link">
+            📑 My Bookings
+          </a>
+
+          <a href="/bookings/host" class="profile-link">
+            🏠 Host Dashboard
+          </a>
+
+          <a href="/listings/new" class="profile-link">
+            ➕ Add Listing
+          </a>
+
+          <hr>
+
+          <a href="/logout" class="profile-link logout">
+            🚪 Logout
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+

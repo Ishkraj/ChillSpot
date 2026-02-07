@@ -1,0 +1,382 @@
+<% layout("/layouts/boilerplate") %>
+<style>
+  /* Card Styling */
+  .review-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 1rem;
+    border: none;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+  }
+
+  .review-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  }
+
+  .review-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 0.75rem;
+  }
+
+  .review-username {
+    font-weight: 600;
+    color: #333;
+  }
+
+  .review-time {
+    font-size: 0.85rem;
+    color: #888;
+  }
+
+  .review-comment {
+    font-size: 0.95rem;
+    color: #555;
+    margin-top: 1rem;
+    white-space: pre-line;
+  }
+
+  .review-stars {
+    font-size: 1.2rem;
+    color: #f7c948;
+  }
+
+  .rating-badge {
+    font-weight: 600;
+    background-color: #f1f3f5;
+    color: #444;
+    padding: 0.4rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+  }
+
+  .review-actions .btn {
+    border-radius: 999px;
+    padding: 0.3rem 0.9rem;
+    font-size: 0.85rem;
+  }
+
+  .review-actions .btn-outline-danger:hover {
+    background-color: #ffebeb;
+    color: #c00;
+    border-color: #c00;
+  }
+
+  .pd {
+    margin-right: 0.5rem;
+  }
+</style>
+
+<div class="container mt-5">
+  <!-- Listing Title -->
+  <div class="row mb-4 text-center">
+    <h2 class="fw-bold display-5"><%= listing.title %></h2>
+  </div>
+
+  <!-- Listing Card -->
+  <div class="card mb-5 shadow-lg col-md-10 offset-md-1 border-0 rounded-4 overflow-hidden">
+    <div class="row g-0">
+      <!-- Image Column with Carousel -->
+      <div class="col-md-6">
+        <div id="carouselImages" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+          <div class="carousel-inner">
+            <% listing.images.forEach((img, idx) => { %>
+              <div class="carousel-item <%= idx === 0 ? 'active' : '' %>">
+                <img src="<%= img.url %>" class="d-block w-100" alt="listing image"
+                  style="object-fit: cover; max-height: 400px;" />
+              </div>
+            <% }) %>
+          </div>
+          <% if (listing.images.length > 1) { %>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselImages" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselImages" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          <% } %>
+        </div>
+      </div>
+
+      <!-- Content Column -->
+      <div class="col-md-6 bg-light d-flex align-items-center">
+        <div class="card-body p-4">
+          <p class="text-muted mb-2 small">
+            <i class="bi bi-person-circle me-1"></i>
+            <strong>Owned by:</strong>
+            <%= listing.owner ? listing.owner.username : 'Unknown' %>
+          </p>
+          <p class="card-text mb-3 fs-6 text-dark" style="min-height: 60px;"><%= listing.description %></p>
+          <p class="h4 text-primary fw-bold mb-3">₹<%= listing.price.toLocaleString() %></p>
+          
+          <!-- RESERVATION BOX -->
+          <div class="reserve-box dark-fix p-4 rounded">
+          
+            <h5 class="fw-bold mb-3">
+              ₹<%= listing.price %> <span class="text-muted fs-6">/ night</span>
+            </h5>
+          
+            <form 
+              action="/listings/<%= listing._id %>/bookings"
+              method="POST"
+            >
+          
+              <!-- DATES -->
+              <div class="row g-2 mb-3">
+          
+                <div class="col-6">
+                  <label class="form-label small">Check-in</label>
+                  <input
+                    type="date"
+                    name="checkIn"
+                    class="form-control"
+                    required
+                  >
+                </div>
+          
+                <div class="col-6">
+                  <label class="form-label small">Check-out</label>
+                  <input
+                    type="date"
+                    name="checkOut"
+                    class="form-control"
+                    required
+                  >
+                </div>
+          
+              </div>
+          
+              <!-- GUESTS -->
+              <div class="mb-3">
+                <label class="form-label small">Guests</label>
+                <select
+                  class="form-select"
+                  name="guests"
+                >
+                  <option value="1">1 guest</option>
+                  <option value="2">2 guests</option>
+                  <option value="3">3 guests</option>
+                  <option value="4">4 guests</option>
+                </select>
+              </div>
+          
+              <!-- TOTAL PRICE -->
+              <div class="d-flex justify-content-between mb-3">
+                <span>Total</span>
+                <strong>Calculated after selection</strong>
+              </div>
+          
+              <button type="submit" class="btn btn-danger w-100 rounded-pill">
+                Reserve
+              </button>
+          
+              <p class="text-center text-muted small mt-2">
+                You won’t be charged yet
+              </p>
+          
+            </form>
+          </div>
+          
+
+          
+          
+          
+          <p class="text-secondary small">
+            <i class="bi bi-geo-alt-fill me-1"></i>
+            <%= listing.location %>, <%= listing.country %>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% if (listing.owner && currUser && listing.owner.username === currUser.username) { %>
+    <div class="d-flex justify-content-between col-md-10 offset-md-1 mb-4">
+      <a class="btn btn-dark px-4 py-2 rounded-pill" href="/listings/<%= listing._id %>/edit">Edit</a>
+      <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
+        <button class="btn btn-outline-danger px-4 py-2 rounded-pill">Delete</button>
+      </form>
+    </div>
+  <% } %>
+  <!-- CONFIDENCE METER -->
+  <div class="confidence-box mt-4">
+  
+    <h5>
+      Booking Confidence:
+      <span class="confidence-percent">
+        <%= confidenceScore %>%
+      </span>
+    </h5>
+  
+    <div class="confidence-bar">
+      <div
+        class="confidence-fill"
+        style="width: <%= confidenceScore %>%"
+      ></div>
+    </div>
+  
+    <% if (confidenceScore >= 85) { %>
+      <p class="confidence-text trusted">🔥 Highly Trusted Stay</p>
+    <% } else if (confidenceScore >= 60) { %>
+      <p class="confidence-text good">👍 Good to Book</p>
+    <% } else { %>
+      <p class="confidence-text low">⚠️ Low confidence — check details</p>
+    <% } %>
+  
+  </div>
+  
+  <!-- TRUST ANALYZER -->
+  <div class="trust-box mt-4">
+  
+    <h5 class="trust-title">
+      🧠 Why you can trust this stay
+    </h5>
+  
+    <ul class="trust-list">
+      <% trustReasons.forEach(reason => { %>
+        <li><%= reason %></li>
+      <% }) %>
+    </ul>
+  
+  </div>
+  <!-- SMART WARNING SYSTEM -->
+   
+  <% if (confidenceScore < 80) { %>
+    <div class="trust-warning mt-4 
+      <%= confidenceScore < 50 ? 'danger' : 'warning' %>">
+  
+      <% if (confidenceScore < 50) { %>
+        🚨 This listing has low trust score.  
+        Please verify details carefully before booking.
+      <% } else { %>
+        ⚠️ This listing has moderate trust level.  
+        We recommend checking reviews and images.
+      <% } %>
+  
+    </div>
+  <% } %>
+  
+
+  <!-- Review Form -->
+  <div class="col-md-10 offset-md-1 mb-5">
+    <hr />
+    <h4 class="mb-4 fw-semibold">Leave a Review</h4>
+    <form action="/listings/<%= listing.id %>/reviews" method="POST" class="needs-validation" novalidate>
+      <div class="mb-4">
+        <label class="form-label fw-medium">Rating</label>
+        <fieldset class="starability-slot">
+          <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked aria-label="No rating." />
+          <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+          <label for="first-rate1" title="Terrible">1 star</label>
+          <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+          <label for="first-rate2" title="Not good">2 stars</label>
+          <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+          <label for="first-rate3" title="Average">3 stars</label>
+          <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+          <label for="first-rate4" title="Very good">4 stars</label>
+          <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+          <label for="first-rate5" title="Amazing">5 stars</label>
+        </fieldset>
+      </div>
+
+      <div class="mb-3">
+        <label for="comment" class="form-label">Comments</label>
+        <textarea name="review[comment]" id="comment" rows="4" class="form-control rounded-3" required></textarea>
+        <div class="invalid-feedback">Please add some comments for review</div>
+      </div>
+      <button class="btn btn-outline-dark px-4 py-2 rounded-pill">Submit</button>
+    </form>
+  </div>
+  
+  <!-- Reviews Display -->
+  <div class="container col-md-10 offset-md-1">
+    <% if (listing.reviews.length > 0) { %>
+      <hr />
+      <h4 class="mb-4 fw-semibold text-center">All Reviews</h4>
+  
+      <% for (let review of listing.reviews) { %>
+        <div class="mb-4">
+          <div class="card shadow-sm border-1 rounded-4 p-3">
+            <div class="card-body">
+  
+              <!-- USER + RATING -->
+              <div class="d-flex justify-content-between align-items-start">
+  
+                <div class="d-flex align-items-center gap-2">
+                  <i class="fa-solid fa-user-tie p-2"></i>
+  
+                  <div>
+                    <strong class="d-block py-1">
+                      <%= review.author ? review.author.username : "Anonymous User" %>
+                    </strong>
+                  </div>
+                </div>
+  
+                <span class="badge bg-light text-dark border px-3 py-1 fw-semibold">
+                  ⭐ <%= review.rating %>/5
+                </span>
+  
+              </div>
+  
+              <!-- COMMENT -->
+              <p class="mt-3 text-muted" style="white-space: pre-line;">
+                <%= review.comment %>
+              </p>
+  
+              <!-- DELETE BUTTON (ONLY OWNER) -->
+              <% if (currUser && review.author && review.author._id.equals(currUser._id)) { %>
+                <div class="d-flex justify-content-end">
+                  <form
+                    method="POST"
+                    action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+                  >
+                    <button class="btn btn-outline-danger btn-sm px-3 rounded-pill">
+                      Delete
+                    </button>
+                  </form>
+                </div>
+              <% } %>
+  
+            </div>
+          </div>
+        </div>
+      <% } %>
+  
+    <% } else { %>
+      <p class="text-center text-muted mt-4">
+        No reviews yet — be the first one to review!
+      </p>
+    <% } %>
+  </div>
+
+<!-- Bootstrap Carousel Script -->
+<script>
+  const carouselElement = document.querySelector('#carouselImages');
+  if (carouselElement) {
+    const carousel = new bootstrap.Carousel(carouselElement, {
+      interval: 3000,
+      pause: 'hover',
+      wrap: true
+    });
+  }
+</script>
+
+<script>
+  function handleReserve() {
+    const hasOwner = <%= listing.owner ? 'true' : 'false' %>;
+
+    if (!hasOwner) {
+      alert("Sorry.. No availability on selected dates");
+      return;
+    }
+
+    window.location.href = "/bookings/new/<%= listing._id %>";
+  }
+</script>
+

@@ -1,0 +1,230 @@
+<% layout("/layouts/boilerplate") %>
+<style>
+  .signup-wrapper {
+    max-width: 480px;
+    margin: 4rem auto;
+    padding: 3rem 2.5rem;
+    background: #ffffffd9;
+    border-radius: 1.75rem;
+    box-shadow: 0 30px 50px rgba(0, 0, 0, 0.15);
+    border: 1px solid #e2e8f0;
+    animation: fadeInUp 0.6s ease;
+    backdrop-filter: blur(6px);
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .signup-wrapper h1 {
+    text-align: center;
+    font-weight: 800;
+    font-size: 2.25rem;
+    margin-bottom: 2rem;
+    color: #212529;
+  }
+
+  .form-label {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+  }
+
+  .form-control {
+    padding: 0.75rem 1rem;
+    border-radius: 0.8rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    transition: border 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+  }
+
+  .btn-signup {
+    width: 100%;
+    background: linear-gradient(to right, #20c997, #198754);
+    color: white;
+    border: none;
+    padding: 0.75rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+    border-radius: 1rem;
+    transition: background 0.3s ease;
+    margin-top: 1rem;
+  }
+
+  .btn-signup:hover {
+    background: linear-gradient(to right, #198754, #146c43);
+  }
+
+  .form-text {
+    margin-top: 1.5rem;
+    text-align: center;
+    font-size: 0.95rem;
+    color: #555;
+  }
+
+  .form-text a {
+    color: #0d6efd;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .form-text a:hover {
+    color: #0a58ca;
+  }
+
+  .valid-feedback {
+    font-size: 0.85rem;
+    color: #198754;
+    margin-top: 0.25rem;
+  }
+
+  /* Corrected label tag spelling */
+  label.form-label {
+    display: block;
+  }
+
+  /* ========================= */
+/* DARK MODE SIGNUP */
+/* ========================= */
+
+body.dark-mode {
+  background: linear-gradient(135deg, #020617, #0f172a);
+  color: #f8fafc;
+}
+
+
+/* Signup Card */
+body.dark-mode .signup-wrapper {
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid #1e293b;
+
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.85),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+
+/* Title */
+body.dark-mode .signup-wrapper h1 {
+  color: #38bdf8;
+}
+
+
+/* Labels */
+body.dark-mode .form-label {
+  color: #cbd5f5;
+}
+
+
+/* Inputs */
+body.dark-mode .form-control {
+  background: #020617;
+  border: 1px solid #334155;
+
+  color: #f8fafc;
+}
+
+
+body.dark-mode .form-control::placeholder {
+  color: #64748b;
+}
+
+
+body.dark-mode .form-control:focus {
+  border-color: #38bdf8;
+
+  box-shadow: 0 0 0 0.2rem rgba(56, 189, 248, 0.25);
+}
+
+
+/* Button */
+body.dark-mode .btn-signup {
+  background: linear-gradient(to right, #0ea5e9, #0284c7);
+}
+
+
+body.dark-mode .btn-signup:hover {
+  background: linear-gradient(to right, #38bdf8, #0369a1);
+}
+
+
+/* Bottom Text */
+body.dark-mode .form-text {
+  color: #94a3b8;
+}
+
+
+body.dark-mode .form-text a {
+  color: #38bdf8;
+}
+
+
+body.dark-mode .form-text a:hover {
+  color: #7dd3fc;
+}
+
+
+/* Valid Feedback */
+body.dark-mode .valid-feedback {
+  color: #22c55e;
+}
+</style>
+
+<div class="signup-wrapper">
+  <h1>Sign Up </h1>
+  <form action="/signup" method="POST" class="needs-validation" novalidate>
+    <div class="mb-3">
+      <label for="username" class="form-label">Username</label>
+      <input
+        name="username"
+        id="username"
+        type="text"
+        class="form-control"
+        required
+      />
+      <div class="valid-feedback">Looks good!</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input
+        name="email"
+        id="email"
+        type="email"
+        class="form-control"
+        required
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input
+        name="password"
+        id="password"
+        type="password"
+        class="form-control"
+        required
+      />
+    </div>
+
+    <button class="btn btn-signup mb-3">Sign Up</button>
+
+    <p class="form-text">
+      Already have an account? <a href="/login">Login here</a>
+    </p>
+  </form>
+</div>
