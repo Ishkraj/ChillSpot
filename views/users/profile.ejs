@@ -58,7 +58,7 @@
   .email-text {
     font-size: 1.05rem;
     color: #444;
-    word-break: break-all; /* Ye lambe email ko mobile mein bahar nahi nikalne dega */
+    word-break: break-all;
     font-weight: 500;
     margin-top: 0.3rem;
   }
@@ -109,13 +109,15 @@
 
 <div class="container py-5">
   <div class="row justify-content-center">
-    <div class="col-md-6 col-lg-4">
+    
+    <div class="col-12 col-md-8 col-lg-4 px-4">
       
       <div class="profile-card">
 
         <div class="profile-header">
           <div class="profile-avatar">
-            <i class="fa-solid fa-user-tie"></i> </div>
+            <i class="fa-solid fa-user-tie"></i>
+          </div>
           <h3><%= currUser.username %></h3>
           <p class="role">Host & Guest</p>
         </div>
