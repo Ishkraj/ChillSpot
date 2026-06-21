@@ -16,18 +16,24 @@ const transporter = nodemailer.createTransport({
 
 
 // SEND OTP
+// SEND OTP
 module.exports.sendOTP = async (email, otp) => {
-  await transporter.sendMail({
-    from: `"ChillSpot" <${process.env.EMAIL_USER}>`,
-    to: email,
-    subject: "Your OTP - ChillSpot",
-    html: `
-      <h2>OTP Verification</h2>
-      <p>Your OTP is:</p>
-      <h1>${otp}</h1>
-      <p>Valid for 5 minutes</p>
-    `
-  });
+  try {
+    await transporter.sendMail({
+      from: `"ChillSpot" <${process.env.EMAIL_USER}>`,
+      to: email,
+      subject: "Your OTP - ChillSpot",
+      html: `
+        <h2>OTP Verification</h2>
+        <p>Your OTP is:</p>
+        <h1>${otp}</h1>
+        <p>Valid for 5 minutes</p>
+      `
+    });
+    console.log("✅ OTP Email sent successfully");
+  } catch (error) {
+    console.log("❌ Error sending OTP Email:", error);
+  }
 };
 
 // ===============================
