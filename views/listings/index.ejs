@@ -195,10 +195,30 @@
 
 <body>
 
+  <div class="container d-flex justify-content-center mt-4 mb-4">
+    <div class="search-hero-wrapper w-100" style="max-width: 600px;">
+      <form action="/listings/search" method="GET" class="d-flex align-items-center bg-white border rounded-pill shadow-sm px-3 py-2" onsubmit="return validateHomeSearch('homeSearchInput')">
+        <i class="fa-solid fa-magnifying-glass text-muted ms-2 fs-5"></i>
+        <input type="text" name="q" id="homeSearchInput" class="form-control border-0 bg-transparent shadow-none ms-2 fs-5" placeholder="Search your hotel, place, city..." autocomplete="off">
+        <button class="btn rounded-pill px-4" style="background-color: #ff385c; color: white; font-weight: bold;" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function validateHomeSearch(id) {
+      const input = document.getElementById(id);
+      input.value = input.value.trim();
+      if (input.value === "") {
+        input.focus();
+        return false;
+      }
+      return true;
+    }
+  </script>
   <div id="filters-main">
     <div id="filters">
   
-      <!-- Filter Buttons -->
       <a href="/listings" class="filter <%= !category ? 'active-filter' : '' %>">
         <div class="filter-icon"><i class="fa-solid fa-house"></i></div>
         <p class="filter-label">All</p>
@@ -249,7 +269,6 @@
         <p class="filter-label">Lakes</p>
       </a>
   
-      <!-- GST TOGGLE -->
       <div class="tax-toggle">
         <div class="form-check form-switch form-check-reverse">
           <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
@@ -262,7 +281,6 @@
     </div>
   </div>
   
-  <!-- LISTINGS GRID -->
   <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-2 px-3">
   
     <% listings.forEach((listing, index) => { %>
@@ -288,13 +306,10 @@
           <div class="card-body">
             <p class="card-text">
           
-              <!-- TITLE -->
               <b class="listing-title"><%= listing.title %></b><br>
           
-              <!-- PRICE WRAPPER -->
               <span class="price-wrapper">
           
-                <!-- BASE PRICE -->
                 <span
                   class="base-price"
                   data-price="<%= listing.price %>"
@@ -302,12 +317,10 @@
                   ₹ <%= listing.price.toLocaleString() %>
                 </span>
           
-                <!-- GST LABEL -->
                 <span class="gst-text">
                   &nbsp;+18% GST
                 </span>
           
-                <!-- GST INCLUDED PRICE -->
                 <span class="gst-price d-none">
                   ₹ <%= Math.round(listing.price * 1.18).toLocaleString() %>
                 </span>
@@ -316,7 +329,6 @@
           
               </span>
           
-              <!-- ⭐ REVIEW INFO -->
               <% if (listing.reviews && listing.reviews.length > 0) { %>
                 <div class="rating-line">
                   ⭐ <%= listing.avgRating %>
@@ -366,5 +378,4 @@
   </script>
   
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
-  
+</body>
