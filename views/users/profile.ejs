@@ -1,14 +1,25 @@
 <% layout("layouts/boilerplate") %>
 
 <style>
-  /* PROFILE CARD STYLING */
+  /* ================= NAYA FIX ================= */
+  .profile-wrapper {
+    padding: 0 1.5rem; /* Ye 100% guarantee dega ki dono side se jagah chhutegi */
+    display: flex;
+    justify-content: center;
+  }
+
   .profile-card {
     background: #fff;
     border-radius: 1.5rem;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     overflow: hidden;
     border: 1px solid #f0f0f0;
+    
+    width: 100%;
+    max-width: 420px; /* Laptop pe isse bada nahi hoga */
+    margin: 0 auto;   /* Hamesha center me rakhega */
   }
+  /* ============================================== */
 
   /* PREMIUM HEADER */
   .profile-header {
@@ -107,54 +118,47 @@
   }
 </style>
 
-<div class="container py-5">
-  <div class="row justify-content-center">
-    
-    <div class="col-12 col-md-8 col-lg-4 px-4">
-      
-      <div class="profile-card">
+<div class="profile-wrapper py-5">
+  <div class="profile-card">
 
-        <div class="profile-header">
-          <div class="profile-avatar">
-            <i class="fa-solid fa-user-tie"></i>
-          </div>
-          <h3><%= currUser.username %></h3>
-          <p class="role">Host & Guest</p>
-        </div>
+    <div class="profile-header">
+      <div class="profile-avatar">
+        <i class="fa-solid fa-user-tie"></i>
+      </div>
+      <h3><%= currUser.username %></h3>
+      <p class="role">Host & Guest</p>
+    </div>
 
-        <div class="profile-body">
+    <div class="profile-body">
 
-          <div class="email-box">
-            <small class="text-muted text-uppercase fw-bold">Email Address</small>
-            <div class="email-text"><%= currUser.email %></div>
-          </div>
-
-          <hr class="mb-4">
-
-          <a href="/bookings" class="profile-link">
-            <i class="fa-solid fa-box-open"></i> My Bookings
-          </a>
-
-          <% if (currUser.isHost) { %>
-            <a href="/bookings/host" class="profile-link">
-              <i class="fa-solid fa-house-user"></i> Host Dashboard
-            </a>
-          <% } %>
-
-          <a href="/listings/new" class="profile-link">
-            <i class="fa-solid fa-plus-circle"></i> Add Listing
-          </a>
-
-          <hr class="my-4">
-
-          <a href="/logout" class="profile-link logout">
-            <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
-          </a>
-
-        </div>
-
+      <div class="email-box">
+        <small class="text-muted text-uppercase fw-bold">Email Address</small>
+        <div class="email-text"><%= currUser.email %></div>
       </div>
 
+      <hr class="mb-4">
+
+      <a href="/bookings" class="profile-link">
+        <i class="fa-solid fa-box-open"></i> My Bookings
+      </a>
+
+      <% if (currUser.isHost) { %>
+        <a href="/bookings/host" class="profile-link">
+          <i class="fa-solid fa-house-user"></i> Host Dashboard
+        </a>
+      <% } %>
+
+      <a href="/listings/new" class="profile-link">
+        <i class="fa-solid fa-plus-circle"></i> Add Listing
+      </a>
+
+      <hr class="my-4">
+
+      <a href="/logout" class="profile-link logout">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+      </a>
+
     </div>
+
   </div>
 </div>
