@@ -11,34 +11,38 @@
 <body>
 
   <nav class="navbar navbar-expand-md navbar-custom sticky-top">
-    <div class="container-fluid d-flex align-items-center justify-content-between">
+    <div class="container-fluid d-flex flex-nowrap align-items-center">
   
-      <a class="navbar-brand fw-bold d-flex align-items-center gap-2 m-0" href="/listings" style="flex-shrink: 0;">
-        <img src="/icons/icon-192x192.png" alt="ChillSpot" style="height: 35px; width: 35px; border-radius: 50%;">
-        <span class="brand-name">ChillSpot</span>
-      </a>
+      <div class="d-flex align-items-center gap-2 flex-grow-1" style="min-width: 0;">
   
-      <div class="mobile-search-wrapper flex-grow-1 mx-3 mx-md-auto" style="max-width: 400px;">
-        <form
-          action="/listings/search"
-          method="GET"
-          class="nav-search d-flex align-items-center w-100"
-          onsubmit="return validateSearch('desktopSearchInput')"
-        >
-          <i class="fa-solid fa-magnifying-glass ms-2"></i>
-          <input
-            type="text"
-            name="q"
-            id="desktopSearchInput"
-            class="form-control border-0 bg-transparent"
-            style="box-shadow: none;"
-            placeholder="Search hotel, city..."
-            autocomplete="off"
-          />
-        </form>
+        <a class="navbar-brand fw-bold d-flex align-items-center gap-2 me-0" href="/listings" style="flex-shrink: 0;">
+          <img src="/icons/icon-192x192.png" alt="ChillSpot" style="height: 35px; width: 35px; border-radius: 50%;">
+          <span class="brand-name">ChillSpot</span>
+        </a>
+  
+        <div class="mobile-search-wrapper flex-grow-1 ms-2" style="min-width: 0;">
+          <form
+            action="/listings/search"
+            method="GET"
+            class="nav-search d-flex align-items-center w-100"
+            onsubmit="return validateSearch('desktopSearchInput')"
+          >
+            <i class="fa-solid fa-magnifying-glass ms-2"></i>
+            <input
+              type="text"
+              name="q"
+              id="desktopSearchInput"
+              class="form-control border-0 bg-transparent flex-grow-1"
+              style="min-width: 0; box-shadow: none;"
+              placeholder="Search hotel, city..."
+              autocomplete="off"
+            />
+          </form>
+        </div>
       </div>
   
-      <div class="d-md-none position-relative flex-shrink-0">
+      <div class="ms-2 d-md-none position-relative flex-shrink-0">
+  
         <button
           class="btn btn-outline-secondary"
           id="mobileMenuBtn"
@@ -48,12 +52,15 @@
         </button>
   
         <ul id="mobileMenu" class="custom-dropdown">
+  
           <% if (currUser) { %>
             <li><a href="/profile">👤 My Profile</a></li>
             <li><a href="/bookings">📦 My Bookings</a></li>
           <% } %>
+  
           <li><a href="/listings">Chill Places</a></li>
           <li><a href="/listings/new">Host Your Stay</a></li>
+  
           <% if (currUser && currUser.isHost) { %>
             <li>
               <a href="/listings/<%= currUser._id %>/bookings/host">
@@ -61,11 +68,17 @@
               </a>
             </li>
           <% } %>
+  
           <li>
-            <button id="mobileThemeToggle" class="dropdown-item d-flex align-items-center gap-2" type="button">
+            <button
+              id="mobileThemeToggle"
+              class="dropdown-item d-flex align-items-center gap-2"
+              type="button"
+            >
               🌙 Toggle Theme
             </button>
           </li>
+  
           <% if (!currUser) { %>
             <li><a href="/signup">Sign Up</a></li>
             <li><a href="/login">Log In</a></li>
@@ -75,17 +88,21 @@
         </ul>
       </div>
   
-      <div class="collapse navbar-collapse d-none d-md-flex flex-grow-0">
+      <div class="collapse navbar-collapse d-none d-md-flex flex-shrink-0">
         <ul class="navbar-nav ms-auto align-items-center gap-3">
+  
           <li class="nav-item">
             <a class="nav-link" href="/listings">Chill Places</a>
           </li>
+  
           <li class="nav-item">
             <a class="nav-link" href="/listings/new">Host Your Stay</a>
           </li>
+  
           <button id="themeToggle" class="btn btn-sm">
             🌙
           </button>
+  
           <% if (!currUser) { %>
             <li class="nav-item">
               <a class="nav-link fw-bold" href="/signup">Sign Up</a>
@@ -94,21 +111,33 @@
               <a class="nav-link fw-bold" href="/login">Log In</a>
             </li>
           <% } else { %>
+          
             <li class="nav-item position-relative">
-              <button id="profileBtn" class="btn btn-light rounded-pill fw-bold border" type="button">
+          
+              <button
+                id="profileBtn"
+                class="btn btn-light rounded-circle"
+                type="button"
+              >
                 My Profile
               </button>
+          
               <div id="profileMenu" class="profile-dropdown">
                 <a href="/profile">My Profile</a>
                 <a href="/bookings">My Bookings</a>
+          
                 <% if (currUser.isHost) { %>
                   <a href="/bookings/host">Host Dashboard</a>
                 <% } %>
+          
                 <hr />
                 <a href="/logout" class="text-danger">Logout</a>
               </div>
+          
             </li>
+          
           <% } %>
+          
         </ul>
       </div>
   
