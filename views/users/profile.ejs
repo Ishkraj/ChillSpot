@@ -1,48 +1,152 @@
-<link rel="stylesheet" href="/css/style.css">
 <% layout("layouts/boilerplate") %>
 
+<style>
+  /* PROFILE CARD STYLING */
+  .profile-card {
+    background: #fff;
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    border: 1px solid #f0f0f0;
+  }
+
+  /* PREMIUM HEADER */
+  .profile-header {
+    background: linear-gradient(135deg, #ff385c 0%, #e61e4d 100%);
+    color: white;
+    padding: 2.5rem 1rem 1.5rem;
+    text-align: center;
+  }
+
+  /* PROFESSIONAL AVATAR */
+  .profile-avatar {
+    width: 90px;
+    height: 90px;
+    background: #fff;
+    color: #ff385c;
+    font-size: 3.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  }
+
+  .profile-header h3 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1.5rem;
+  }
+
+  .profile-header .role {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    margin-top: 0.2rem;
+  }
+
+  /* BODY & EMAIL FIX */
+  .profile-body {
+    padding: 2rem 1.5rem;
+  }
+
+  .email-box {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .email-text {
+    font-size: 1.05rem;
+    color: #444;
+    word-break: break-all; /* Ye lambe email ko mobile mein bahar nahi nikalne dega */
+    font-weight: 500;
+    margin-top: 0.3rem;
+  }
+
+  /* APP-STYLE BUTTONS */
+  .profile-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.9rem 1.5rem;
+    margin-bottom: 1rem;
+    border-radius: 0.8rem;
+    text-decoration: none;
+    font-weight: 600;
+    color: #333;
+    background: #f8f9fa;
+    border: 1px solid #eee;
+    transition: all 0.2s;
+  }
+
+  .profile-link i {
+    font-size: 1.1rem;
+    color: #666;
+  }
+
+  .profile-link:hover {
+    background: #f1f3f5;
+    transform: translateY(-2px);
+    color: #000;
+  }
+
+  /* LOGOUT BUTTON */
+  .profile-link.logout {
+    color: #dc3545;
+    background: #fff5f5;
+    border-color: #ffdcdb;
+  }
+
+  .profile-link.logout i {
+    color: #dc3545;
+  }
+
+  .profile-link.logout:hover {
+    background: #ffe5e5;
+  }
+</style>
+
 <div class="container py-5">
-
   <div class="row justify-content-center">
-
     <div class="col-md-6 col-lg-4">
+      
+      <div class="profile-card">
 
-      <div class="profile-card text-center">
-
-        <!-- AVATAR -->
         <div class="profile-header">
-          <div class="avatar">👤</div>
-
+          <div class="profile-avatar">
+            <i class="fa-solid fa-user-tie"></i> </div>
           <h3><%= currUser.username %></h3>
           <p class="role">Host & Guest</p>
         </div>
 
-        <!-- INFO -->
         <div class="profile-body">
 
-          <p>
-            <strong>Email:</strong><br>
-            <%= currUser.email %>
-          </p>
+          <div class="email-box">
+            <small class="text-muted text-uppercase fw-bold">Email Address</small>
+            <div class="email-text"><%= currUser.email %></div>
+          </div>
 
-          <hr>
+          <hr class="mb-4">
 
           <a href="/bookings" class="profile-link">
-            📑 My Bookings
+            <i class="fa-solid fa-box-open"></i> My Bookings
           </a>
 
-          <a href="/bookings/host" class="profile-link">
-            🏠 Host Dashboard
-          </a>
+          <% if (currUser.isHost) { %>
+            <a href="/bookings/host" class="profile-link">
+              <i class="fa-solid fa-house-user"></i> Host Dashboard
+            </a>
+          <% } %>
 
           <a href="/listings/new" class="profile-link">
-            ➕ Add Listing
+            <i class="fa-solid fa-plus-circle"></i> Add Listing
           </a>
 
-          <hr>
+          <hr class="my-4">
 
           <a href="/logout" class="profile-link logout">
-            🚪 Logout
+            <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
           </a>
 
         </div>
@@ -50,8 +154,5 @@
       </div>
 
     </div>
-
   </div>
-
 </div>
-
