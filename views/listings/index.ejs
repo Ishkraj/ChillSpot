@@ -2,7 +2,7 @@
 <style>
   #filters {
     display: flex;
-    flex-wrap: wrap; /* allows wrapping to next line if needed */
+    flex-wrap: wrap;
     align-items: center;
     justify-content: flex-start;
     gap: 1rem;
@@ -11,7 +11,6 @@
     border-bottom: 1px solid #eee;
   }
 
-  /* FILTER ITEM */
   .filter {
     display: flex;
     flex-direction: column;
@@ -24,7 +23,6 @@
     transition: all 0.2s ease-in-out;
   }
 
-  /* CIRCLE ICON BACKGROUND */
   .filter-icon {
     width: 64px;
     height: 64px;
@@ -58,7 +56,6 @@
     color: #000;
   }
 
-  /* ACTIVE FILTER AS CIRCLE WITH COLOR */
   .active-filter .filter-icon {
     background-color: #4f8df7;
     color: #fff;
@@ -74,7 +71,6 @@
     color: #4f8df7;
   }
 
-  /* TOGGLE STYLING */
   .tax-toggle {
     border: 1px solid #aaa;
     border-radius: 2rem;
@@ -95,31 +91,25 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   }
 
-  /* RESPONSIVE BEHAVIOR */
   @media (max-width: 768px) {
     #filters {
       flex-wrap: wrap;
       justify-content: center;
       gap: 0.8rem;
     }
-
     .filter {
       width: 72px;
     }
-
     .filter-icon {
       width: 56px;
       height: 56px;
     }
-
     .filter-icon i {
       font-size: 1.2rem;
     }
-
     .filter-label {
       font-size: 0.7rem;
     }
-
     .tax-toggle {
       width: 100%;
       justify-content: center;
@@ -185,37 +175,14 @@
     .row {
       padding: 0 1rem;
     }
-
     .listing-card {
       margin-bottom: 1rem;
     }
   }
-  
 </style>
 
 <body>
 
-  <div class="container d-flex justify-content-center mt-4 mb-4">
-    <div class="search-hero-wrapper w-100" style="max-width: 600px;">
-      <form action="/listings/search" method="GET" class="d-flex align-items-center bg-white border rounded-pill shadow-sm px-3 py-2" onsubmit="return validateHomeSearch('homeSearchInput')">
-        <i class="fa-solid fa-magnifying-glass text-muted ms-2 fs-5"></i>
-        <input type="text" name="q" id="homeSearchInput" class="form-control border-0 bg-transparent shadow-none ms-2 fs-5" placeholder="Search your hotel, place, city..." autocomplete="off">
-        <button class="btn rounded-pill px-4" style="background-color: #ff385c; color: white; font-weight: bold;" type="submit">Search</button>
-      </form>
-    </div>
-  </div>
-
-  <script>
-    function validateHomeSearch(id) {
-      const input = document.getElementById(id);
-      input.value = input.value.trim();
-      if (input.value === "") {
-        input.focus();
-        return false;
-      }
-      return true;
-    }
-  </script>
   <div id="filters-main">
     <div id="filters">
   
@@ -280,6 +247,28 @@
   
     </div>
   </div>
+
+  <div class="container d-flex justify-content-center mt-4 mb-4">
+    <div class="search-hero-wrapper w-100" style="max-width: 600px;">
+      <form action="/listings/search" method="GET" class="d-flex align-items-center bg-white border rounded-pill shadow-sm px-3 py-2" onsubmit="return validateHomeSearch('homeSearchInput')">
+        <i class="fa-solid fa-magnifying-glass text-muted ms-2 fs-5"></i>
+        <input type="text" name="q" id="homeSearchInput" class="form-control border-0 bg-transparent shadow-none ms-2 fs-5" placeholder="Search your hotel, place, city..." autocomplete="off">
+        <button class="btn rounded-pill px-4" style="background-color: #ff385c; color: white; font-weight: bold;" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function validateHomeSearch(id) {
+      const input = document.getElementById(id);
+      input.value = input.value.trim();
+      if (input.value === "") {
+        input.focus();
+        return false;
+      }
+      return true;
+    }
+  </script>
   
   <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-2 px-3">
   
@@ -309,24 +298,14 @@
               <b class="listing-title"><%= listing.title %></b><br>
           
               <span class="price-wrapper">
-          
-                <span
-                  class="base-price"
-                  data-price="<%= listing.price %>"
-                >
+                <span class="base-price" data-price="<%= listing.price %>">
                   ₹ <%= listing.price.toLocaleString() %>
                 </span>
-          
-                <span class="gst-text">
-                  &nbsp;+18% GST
-                </span>
-          
+                <span class="gst-text">&nbsp;+18% GST</span>
                 <span class="gst-price d-none">
                   ₹ <%= Math.round(listing.price * 1.18).toLocaleString() %>
                 </span>
-          
                 <span class="per-night"> / night</span>
-          
               </span>
           
               <% if (listing.reviews && listing.reviews.length > 0) { %>
@@ -344,7 +323,6 @@
           
             </p>
           </div>
-          
   
         </div>
       </a>
@@ -363,12 +341,10 @@
   
       basePrices.forEach((price, i) => {
         if (toggle.checked) {
-          // SHOW final price
           price.classList.add("d-none");
           gstTexts[i].classList.add("d-none");
           gstPrices[i].classList.remove("d-none");
         } else {
-          // SHOW base price
           price.classList.remove("d-none");
           gstTexts[i].classList.remove("d-none");
           gstPrices[i].classList.add("d-none");
