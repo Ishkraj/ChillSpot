@@ -77,6 +77,8 @@ module.exports.sendNewBookingEmailToHost = async (data) => {
 
       <hr/>
       <p>Please login to respond.</p>
+      <a href="https://chillspot-fw8c.onrender.com/bookings/host">https://ChillSpot.com/bookings/host</a>
+      
     `
   });
 
