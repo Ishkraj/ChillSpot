@@ -111,10 +111,13 @@ router.post("/", isLoggedIn, async (req, res) => {
 router.get("/", isLoggedIn, async (req, res) => {
   const bookings = await Booking.find({
     user: req.user._id,
-  }).populate("listing");
+  })
+  .populate("listing")
+  .sort({ createdAt: -1 }); // 🔥 Yeh naya booking ko top par layega
 
   res.render("bookings/index", { bookings });
 });
+
 
 // ===============================
 // HOST: Booking Requests
@@ -122,7 +125,8 @@ router.get("/", isLoggedIn, async (req, res) => {
 router.get("/host", isLoggedIn, async (req, res) => {
   const bookings = await Booking.find({})
     .populate("listing")
-    .populate("user");
+    .populate("user")
+    .sort({ createdAt: -1 }); // 🔥 Yeh latest request ko top par dikhayega
 
   const hostBookings = bookings.filter(
     (b) => b.listing.owner.equals(req.user._id)
