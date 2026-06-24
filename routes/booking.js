@@ -10,7 +10,6 @@ const {
   sendBookingRejectedEmail
 } = require("../utils/sendEmail");
 
-
 // ===============================
 // CREATE BOOKING (RESERVE) ✅
 // ===============================
@@ -35,15 +34,39 @@ router.post("/", isLoggedIn, async (req, res) => {
     const start = new Date(checkIn);
     const end = new Date(checkOut);
 
-    const nights =
-      (end - start) / (1000 * 60 * 60 * 24);
+    // Math.ceil ki jagah Math.round for accurate days
+    const days = Math.round((end - start) / (1000 * 60 * 60 * 24));
 
-    if (nights <= 0) {
+    if (days <= 0) {
       req.flash("error", "Invalid dates");
       return res.redirect(`/listings/${id}`);
     }
 
-    const totalPrice = nights * listing.price;
+    // ==========================================
+    // 🔥 HYBRID PRICING LOGIC ADDED HERE
+    // ==========================================
+    let totalPrice = 0;
+    const pricingType = listing.pricingType || "Daily";
+    const dailyPrice = Number(listing.price) || 0;
+    const monthlyPrice = Number(listing.monthlyPrice) || 0;
+
+    if (pricingType === 'Monthly') {
+      let months = Math.ceil(days / 30);
+      totalPrice = months * monthlyPrice;
+    } 
+    else if (pricingType === 'Both') {
+      if (days >= 30) {
+        let months = Math.floor(days / 30);
+        let extraDays = days % 30;
+        totalPrice = (months * monthlyPrice) + (extraDays * dailyPrice);
+      } else {
+        totalPrice = days * dailyPrice;
+      }
+    } 
+    else {
+      totalPrice = days * dailyPrice;
+    }
+    // ==========================================
 
     const booking = new Booking({
       listing: id,
@@ -51,22 +74,26 @@ router.post("/", isLoggedIn, async (req, res) => {
       checkIn,
       checkOut,
       guests,
-      totalPrice,
+      totalPrice, // Smart Price ab yahan aayega
     });
 
     await booking.save();
 
-    // Email to host
+    // ==========================================
+    // 📧 EMAIL FIX (Prevent blank/cut emails)
+    // ==========================================
+    const inDate = checkIn ? new Date(checkIn).toDateString() : "N/A";
+    const outDate = checkOut ? new Date(checkOut).toDateString() : "N/A";
+
     await sendNewBookingEmailToHost({
       hostEmail: listing.owner?.email,
       guestName: req.user.username,
       listingTitle: listing.title,
-      checkIn,
-      checkOut,
+      checkIn: inDate,   // Formatted date bheji
+      checkOut: outDate, // Formatted date bheji
       guests,
       totalPrice
     });
-    
 
     req.flash("success", "Booking request sent!");
     res.redirect("/bookings");
@@ -139,7 +166,6 @@ router.post("/:bookingId/confirm", isLoggedIn, async (req, res) => {
     totalPrice: booking.totalPrice
   });
   
-
   req.flash("success", "Booking confirmed!");
   res.redirect("/bookings/host");
 });
@@ -168,7 +194,6 @@ router.post("/:bookingId/reject", isLoggedIn, async (req, res) => {
     listingTitle: booking.listing.title
   });
   
-
   req.flash("error", "Booking rejected");
   res.redirect("/bookings/host");
 });

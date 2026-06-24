@@ -7,38 +7,40 @@ const listingSchema = new Schema(
     title: {
       type: String,
     },
-
     description: String,
-
     images: [
       {
         url: String,
         filename: String,
       },
     ],
-
-    price: Number,
+    
+    // ==========================================
+    // 🔥 HYBRID PRICING (DAILY vs MONTHLY RENT)
+    // ==========================================
+    pricingType: {
+      type: String,
+      enum: ["Daily", "Monthly", "Both"],
+      default: "Daily", // Default hotel/Airbnb style chalega
+    },
+    price: Number,        // Daily / Per Night Price
+    monthlyPrice: Number, // Monthly Rent / PG Price (Optional based on type)
+    // ==========================================
 
     location: String,
-
     mapLink: String,
-
     country: String,
-
     category: String,
-
     reviews: [
       {
         type: Schema.Types.ObjectId,
         ref: "Review",
       },
     ],
-
     owner: {
       type: Schema.Types.ObjectId,
       ref: "User",
     },
-
     confidenceScore: {
       type: Number,
       default: 0,
@@ -48,8 +50,6 @@ const listingSchema = new Schema(
     timestamps: true,
   }
 );
-
-
 
 // ⭐⭐⭐⭐⭐
 // AVERAGE RATING VIRTUAL
@@ -66,13 +66,9 @@ listingSchema.virtual("avgRating").get(function () {
   return (total / this.reviews.length).toFixed(1);
 });
 
-
-
 // IMPORTANT — virtuals must be enabled
 listingSchema.set("toJSON", { virtuals: true });
 listingSchema.set("toObject", { virtuals: true });
-
-
 
 // 🧹 delete all reviews if listing deleted
 listingSchema.post("findOneAndDelete", async (listing) => {
@@ -82,8 +78,6 @@ listingSchema.post("findOneAndDelete", async (listing) => {
     });
   }
 });
-
-
 
 const Listing = mongoose.model("Listing", listingSchema);
 module.exports = Listing;

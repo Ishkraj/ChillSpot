@@ -4,7 +4,17 @@ module.exports.listingSchema = Joi.object({
   listing: Joi.object({
     title: Joi.string().required(),
     description: Joi.string().required(),
-    price: Joi.number().min(0).required(),
+    
+    // ==========================================
+    // 🔥 HYBRID PRICING FIELDS ADDED HERE
+    // ==========================================
+    pricingType: Joi.string().valid("Daily", "Monthly", "Both").required(),
+    
+    // .allow(null, "") lagaya hai taaki empty fields error na dein
+    price: Joi.number().min(0).allow(null, "").optional(),
+    monthlyPrice: Joi.number().min(0).allow(null, "").optional(),
+    // ==========================================
+
     location: Joi.string().required(),
     mapLink: Joi.string().uri().required(),
     category: Joi.string().required(),

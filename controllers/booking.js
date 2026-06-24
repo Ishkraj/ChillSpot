@@ -2,37 +2,26 @@ const Booking = require("../models/booking");
 const Listing = require("@models/listing");
 const User = require("@models/user");
 
-
-
-
 const {
   sendNewBookingEmailToHost,
   sendBookingConfirmedEmail,
   sendBookingRejectedEmail
 } = require("../utils/sendEmail");
 
-
 // ===============================
-// CREATE BOOKING (FIXED)
+// CREATE BOOKING (FIXED WITH HYBRID PRICING)
 // ===============================
 module.exports.createBooking = async (req, res) => {
   try {
     const { id } = req.params;
 
     // 1. Listing Fetch karo aur Owner Populate karo
-    // Note: Maine .lean() hata diya hai filhal taaki Mongoose document ke sare features milen
     const listing = await Listing.findById(id).populate("owner");
     console.log("========== OWNER DEBUG ==========");
     console.log("listing.owner =>", listing.owner);
-    console.log("owner keys =>", Object.keys(listing.owner || {}));
     console.log("owner.email =>", listing.owner?.email);
-    console.log("owner._id =>", listing.owner?._id);
     console.log("================================");
 
-
-    console.log("BOOKING LISTING ID =>", id);
-    
-    // Check if listing exists
     if (!listing || !listing.owner) {
       req.flash("error", "Invalid listing or owner not found");
       return res.redirect("/listings");
@@ -48,8 +37,43 @@ module.exports.createBooking = async (req, res) => {
       return res.redirect("back");
     }
 
-    const nights = (end - start) / (1000 * 60 * 60 * 24);
-    const totalPrice = nights * listing.price;
+   // ==========================================
+    // 🔥 BACKEND HYBRID PRICING LOGIC (FIXED)
+    // ==========================================
+    // Math.ceil ki jagah Math.round use kiya hai exact days ke liye
+    const days = Math.round((end - start) / (1000 * 60 * 60 * 24));
+    console.log("==== PRICE DEBUG ====");
+    console.log("Days Calculated:", days);
+    console.log("Pricing Type in DB:", listing.pricingType);
+    console.log("Monthly Price in DB:", listing.monthlyPrice);
+    console.log("Daily Price in DB:", listing.price);
+    console.log("=====================");
+    let totalPrice = 0;
+    
+    
+    const pricingType = listing.pricingType || "Daily";
+    const dailyPrice = Number(listing.price) || 0;
+    const monthlyPrice = Number(listing.monthlyPrice) || 0;
+
+    if (pricingType === 'Monthly') {
+      let months = Math.ceil(days / 30);
+      totalPrice = months * monthlyPrice;
+    } 
+    else if (pricingType === 'Both') {
+      if (days >= 30) {
+        let months = Math.floor(days / 30);
+        let extraDays = days % 30;
+        totalPrice = (months * monthlyPrice) + (extraDays * dailyPrice);
+      } else {
+        totalPrice = days * dailyPrice;
+      }
+    } 
+    else {
+      totalPrice = days * dailyPrice;
+    }
+    
+   
+    // ==========================================
 
     // 2. Booking Create karo
     const booking = new Booking({
@@ -58,7 +82,7 @@ module.exports.createBooking = async (req, res) => {
       checkIn,
       checkOut,
       guests,
-      totalPrice,
+      totalPrice, // Yahan ab smart calculated price aayega
       status: "pending"
     });
 
@@ -69,16 +93,14 @@ module.exports.createBooking = async (req, res) => {
     // ==========================================
     let hostEmail = listing.owner.email;
 
-    // Agar Listing populate hone ke baad bhi email nahi mila, toh User model se fetch karo
     if (!hostEmail) {
       console.log("⚠️ Listing owner populated but no email directly found. Fetching manually...");
       const ownerUser = await User.findById(listing.owner._id || listing.owner);
       hostEmail = ownerUser ? ownerUser.email : null;
     }
 
-    console.log("📧 FINAL HOST EMAIL =>", hostEmail); // Debugging ke liye
+    console.log("📧 FINAL HOST EMAIL =>", hostEmail);
 
-    // Agar ab bhi email nahi mila, toh error show karo aur email function mat call karo
     if (!hostEmail) {
       console.log("❌ ERROR: Host email not found in DB");
       req.flash("error", "Booking saved, but Host email not found for notification.");
@@ -87,13 +109,13 @@ module.exports.createBooking = async (req, res) => {
 
     // Email Bhejo
     await sendNewBookingEmailToHost({
-      hostEmail, // Ab ye undefined nahi hoga
+      hostEmail,
       guestName: req.user.username,
       listingTitle: listing.title,
       checkIn,
       checkOut,
       guests,
-      totalPrice
+      totalPrice // Host ko email mein bhi exact sahi price dikhega
     });
 
     req.flash("success", "Request sent to host!");
@@ -123,7 +145,6 @@ module.exports.hostBookings = async (req, res) => {
 // CONFIRM BOOKING
 // ===============================
 module.exports.confirmBooking = async (req, res) => {
-
   const { bookingId } = req.params;
 
   const booking = await Booking.findById(bookingId)
@@ -140,7 +161,6 @@ module.exports.confirmBooking = async (req, res) => {
 
   await booking.save();
 
-
   await sendBookingConfirmedEmail({
     guestEmail: booking.user.email,
     guestName: booking.user.username,
@@ -153,18 +173,14 @@ module.exports.confirmBooking = async (req, res) => {
     totalPrice: booking.totalPrice
   });
 
-
   req.flash("success", "Booking confirmed!");
   res.redirect("back");
 };
-
-
 
 // ===============================
 // REJECT BOOKING
 // ===============================
 module.exports.rejectBooking = async (req, res) => {
-
   const { bookingId } = req.params;
 
   const booking = await Booking.findById(bookingId)
@@ -179,15 +195,12 @@ module.exports.rejectBooking = async (req, res) => {
   booking.status = "rejected";
   await booking.save();
 
-
   await sendBookingRejectedEmail({
     guestEmail: booking.user.email,
     guestName: booking.user.username,
     listingTitle: booking.listing.title
   });
 
-
   req.flash("success", "Booking rejected!");
   res.redirect("back");
 };
-

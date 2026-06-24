@@ -51,38 +51,64 @@
           <div id="previewContainer" class="mt-3 d-flex flex-wrap gap-3"></div>
         </div>
 
-        <!-- Price and Location -->
+        <!-- ========================================== -->
+        <!-- 🔥 HYBRID PRICING LOGIC ADDED HERE         -->
+        <!-- ========================================== -->
+        <div class="mb-3">
+          <label for="pricingType" class="form-label">What kind of stay is this?</label>
+          <select name="listing[pricingType]" id="pricingType" class="form-select" required>
+            <option value="Daily" selected>Short-term / Daily Stays (Hotel style)</option>
+            <option value="Monthly">Long-term / Monthly Rent (PG/Flat style)</option>
+            <option value="Both">Both (Daily & Monthly Options)</option>
+          </select>
+        </div>
+
         <div class="row">
-          <div class="mb-3 col-md-4">
-            <label for="price" class="form-label">Price</label>
+          <!-- Daily Price (Hidden if Monthly is selected) -->
+          <div class="mb-3 col-md-6" id="dailyPriceDiv">
+            <label for="price" class="form-label">Daily Price (₹ / night)</label>
             <input
               name="listing[price]"
               type="number"
+              id="dailyPriceInput"
               placeholder="1200"
               class="form-control"
               required
             />
-            <div class="invalid-feedback">Price should be valid</div>
+            <div class="invalid-feedback">Daily price is required</div>
           </div>
 
-          <div class="mb-3 col-md-8">
-            <label for="location" class="form-label">Location</label>
+          <!-- Monthly Price (Hidden by default) -->
+          <div class="mb-3 col-md-6" id="monthlyPriceDiv" style="display: none;">
+            <label for="monthlyPrice" class="form-label">Monthly Rent (₹ / month)</label>
             <input
-              name="listing[location]"
-              type="text"
-              placeholder="Jaipur, Rajasthan"
+              name="listing[monthlyPrice]"
+              type="number"
+              id="monthlyPriceInput"
+              placeholder="15000"
               class="form-control"
-              required
             />
-            <div class="invalid-feedback">Location should be valid</div>
+            <div class="invalid-feedback">Monthly rent is required</div>
           </div>
+        </div>
+        <!-- ========================================== -->
+
+        <!-- Location -->
+        <div class="mb-3">
+          <label for="location" class="form-label">Location</label>
+          <input
+            name="listing[location]"
+            type="text"
+            placeholder="Jaipur, Rajasthan"
+            class="form-control"
+            required
+          />
+          <div class="invalid-feedback">Location should be valid</div>
         </div>
 
         <!--- Exact Location Link-->
-
         <div class="mb-3">
           <label class="form-label">Google Maps Exact Location Link</label>
-        
           <input
             type="url"
             name="listing[mapLink]"
@@ -91,7 +117,6 @@
             required
           />
         </div>
-        
 
         <!-- Category -->
         <div class="mb-3">
@@ -135,11 +160,44 @@
     </div>
   </div>
 
-  <!-- JavaScript for image preview and removal -->
+  <!-- JavaScript for image preview AND dynamic pricing fields -->
   <script>
+    // 1. DYNAMIC PRICING LOGIC
+    const pricingType = document.getElementById("pricingType");
+    const dailyPriceDiv = document.getElementById("dailyPriceDiv");
+    const monthlyPriceDiv = document.getElementById("monthlyPriceDiv");
+    const dailyPriceInput = document.getElementById("dailyPriceInput");
+    const monthlyPriceInput = document.getElementById("monthlyPriceInput");
+
+    pricingType.addEventListener("change", function() {
+      if (this.value === "Daily") {
+        dailyPriceDiv.style.display = "block";
+        dailyPriceInput.required = true;
+        
+        monthlyPriceDiv.style.display = "none";
+        monthlyPriceInput.required = false;
+        monthlyPriceInput.value = ""; // Hide & clear monthly
+      } 
+      else if (this.value === "Monthly") {
+        dailyPriceDiv.style.display = "none";
+        dailyPriceInput.required = false;
+        dailyPriceInput.value = ""; // Hide & clear daily
+        
+        monthlyPriceDiv.style.display = "block";
+        monthlyPriceInput.required = true;
+      } 
+      else if (this.value === "Both") {
+        dailyPriceDiv.style.display = "block";
+        dailyPriceInput.required = true;
+        
+        monthlyPriceDiv.style.display = "block";
+        monthlyPriceInput.required = true;
+      }
+    });
+
+    // 2. IMAGE UPLOAD PREVIEW LOGIC
     const imageInput = document.getElementById("imageUpload");
     const previewContainer = document.getElementById("previewContainer");
-
     let selectedFiles = [];
 
     imageInput.addEventListener("change", (event) => {
@@ -178,4 +236,3 @@
     }
   </script>
 </body>
-
