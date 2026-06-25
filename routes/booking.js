@@ -34,7 +34,6 @@ router.post("/", isLoggedIn, async (req, res) => {
     const start = new Date(checkIn);
     const end = new Date(checkOut);
 
-    // Math.ceil ki jagah Math.round for accurate days
     const days = Math.round((end - start) / (1000 * 60 * 60 * 24));
 
     if (days <= 0) {
@@ -43,7 +42,7 @@ router.post("/", isLoggedIn, async (req, res) => {
     }
 
     // ==========================================
-    // 🔥 HYBRID PRICING LOGIC ADDED HERE
+    // 🔥 HYBRID PRICING LOGIC
     // ==========================================
     let totalPrice = 0;
     const pricingType = listing.pricingType || "Daily";
@@ -66,7 +65,11 @@ router.post("/", isLoggedIn, async (req, res) => {
     else {
       totalPrice = days * dailyPrice;
     }
+
     // ==========================================
+    // ⚡ INSTANT BOOK SMART LOGIC
+    // ==========================================
+    const isInstant = listing.isInstantBook;
 
     const booking = new Booking({
       listing: id,
@@ -74,28 +77,45 @@ router.post("/", isLoggedIn, async (req, res) => {
       checkIn,
       checkOut,
       guests,
-      totalPrice, // Smart Price ab yahan aayega
+      totalPrice,
+      status: isInstant ? "confirmed" : "pending",
+      address: isInstant ? listing.location : undefined // Instant book mein address turant de do
     });
 
     await booking.save();
 
-    // ==========================================
-    // 📧 EMAIL FIX (Prevent blank/cut emails)
-    // ==========================================
     const inDate = checkIn ? new Date(checkIn).toDateString() : "N/A";
     const outDate = checkOut ? new Date(checkOut).toDateString() : "N/A";
 
-    await sendNewBookingEmailToHost({
-      hostEmail: listing.owner?.email,
-      guestName: req.user.username,
-      listingTitle: listing.title,
-      checkIn: inDate,   // Formatted date bheji
-      checkOut: outDate, // Formatted date bheji
-      guests,
-      totalPrice
-    });
+    if (isInstant) {
+      // 🚀 Direct Guest ko Confirmation Email
+      await sendBookingConfirmedEmail({
+        guestEmail: req.user.email,
+        guestName: req.user.username,
+        listingTitle: listing.title,
+        address: listing.location,
+        mapLink: listing.mapLink,
+        checkIn: inDate,
+        checkOut: outDate,
+        guests,
+        totalPrice
+      });
+      req.flash("success", "⚡ Instant Booking Confirmed!");
+    } else {
+      // ⏳ Host ko Approval Email
+      await sendNewBookingEmailToHost({
+        hostEmail: listing.owner?.email,
+        guestName: req.user.username,
+        listingTitle: listing.title,
+        checkIn: inDate,
+        checkOut: outDate,
+        guests,
+        totalPrice
+      });
+      req.flash("success", "Booking request sent!");
+    }
+    // ==========================================
 
-    req.flash("success", "Booking request sent!");
     res.redirect("/bookings");
 
   } catch (err) {
@@ -113,11 +133,10 @@ router.get("/", isLoggedIn, async (req, res) => {
     user: req.user._id,
   })
   .populate("listing")
-  .sort({ createdAt: -1 }); // 🔥 Yeh naya booking ko top par layega
+  .sort({ createdAt: -1 });
 
   res.render("bookings/index", { bookings });
 });
-
 
 // ===============================
 // HOST: Booking Requests
@@ -126,7 +145,7 @@ router.get("/host", isLoggedIn, async (req, res) => {
   const bookings = await Booking.find({})
     .populate("listing")
     .populate("user")
-    .sort({ createdAt: -1 }); // 🔥 Yeh latest request ko top par dikhayega
+    .sort({ createdAt: -1 });
 
   const hostBookings = bookings.filter(
     (b) => b.listing.owner.equals(req.user._id)

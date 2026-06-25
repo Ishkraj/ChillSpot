@@ -15,6 +15,12 @@ module.exports.listingSchema = Joi.object({
     monthlyPrice: Joi.number().min(0).allow(null, "").optional(),
     // ==========================================
 
+    // ==========================================
+    // ⚡ INSTANT BOOK FIELD ALLOWED HERE
+    // ==========================================
+    isInstantBook: Joi.boolean().optional(),
+    // ==========================================
+
     location: Joi.string().required(),
     mapLink: Joi.string().uri().required(),
     category: Joi.string().required(),

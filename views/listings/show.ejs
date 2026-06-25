@@ -121,8 +121,15 @@
               ₹<%= (listing.price || 0).toLocaleString() %> <span class="fs-6 text-muted fw-normal">/ night</span>
             <% } %>
           </p>
-          <div class="reserve-box dark-fix p-4 rounded" style="border: 1px solid #e0e0e0; background: #fff;">
+
+          <div class="reserve-box dark-fix p-4 rounded" style="border: 1px solid #e0e0e0; background: #fff; position: relative;">
           
+            <% if (listing.isInstantBook) { %>
+              <div class="mb-3" style="background-color: #e8f5e9; color: #2e7d32; border-radius: 8px; padding: 10px 15px; border: 1px solid #c8e6c9;">
+                <h6 class="mb-1" style="font-weight: bold; margin: 0;">⚡ Instant Book</h6>
+                <p style="font-size: 0.8rem; margin: 0;">No need to wait for host approval. Booking confirms instantly!</p>
+              </div>
+            <% } %>
             <h5 class="fw-bold mb-3" style="color: #ff385c;">
               <% if (listing.pricingType === 'Monthly') { %>
                 ₹<%= (listing.monthlyPrice || 0).toLocaleString() %> <span class="text-muted fs-6 fw-normal">/ month</span>

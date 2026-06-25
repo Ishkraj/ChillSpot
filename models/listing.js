@@ -21,10 +21,19 @@ const listingSchema = new Schema(
     pricingType: {
       type: String,
       enum: ["Daily", "Monthly", "Both"],
-      default: "Daily", // Default hotel/Airbnb style chalega
+      default: "Daily",
     },
-    price: Number,        // Daily / Per Night Price
-    monthlyPrice: Number, // Monthly Rent / PG Price (Optional based on type)
+    price: Number,        
+    monthlyPrice: Number, 
+    // ==========================================
+
+    // ==========================================
+    // ⚡ INSTANT BOOK FEATURE
+    // ==========================================
+    isInstantBook: {
+      type: Boolean,
+      default: false, // Default manual approval rahega
+    },
     // ==========================================
 
     location: String,
@@ -58,15 +67,12 @@ listingSchema.virtual("avgRating").get(function () {
   if (!this.reviews || this.reviews.length === 0) return 0;
 
   let total = 0;
-
   for (let review of this.reviews) {
     total += review.rating;
   }
-
   return (total / this.reviews.length).toFixed(1);
 });
 
-// IMPORTANT — virtuals must be enabled
 listingSchema.set("toJSON", { virtuals: true });
 listingSchema.set("toObject", { virtuals: true });
 

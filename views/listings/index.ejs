@@ -298,16 +298,30 @@
               <b class="listing-title"><%= listing.title %></b><br>
           
               <span class="price-wrapper">
-                <span class="base-price" data-price="<%= listing.price %>">
-                  ₹ <%= listing.price.toLocaleString() %>
-                </span>
-                <span class="gst-text">&nbsp;+18% GST</span>
-                <span class="gst-price d-none">
-                  ₹ <%= Math.round(listing.price * 1.18).toLocaleString() %>
-                </span>
-                <span class="per-night"> / night</span>
+                <% if (listing.price) { %>
+                  <span class="base-price" data-price="<%= listing.price %>">
+                    ₹ <%= listing.price.toLocaleString() %>
+                  </span>
+                  <span class="gst-text">&nbsp;+18% GST</span>
+                  <span class="gst-price d-none">
+                    ₹ <%= Math.round(listing.price * 1.18).toLocaleString() %>
+                  </span>
+                  <span class="per-night"> / night</span>
+                
+                <% } else if (listing.monthlyPrice) { %>
+                  <span class="base-price" data-price="<%= listing.monthlyPrice %>">
+                    ₹ <%= listing.monthlyPrice.toLocaleString() %>
+                  </span>
+                  <span class="gst-text">&nbsp;+18% GST</span>
+                  <span class="gst-price d-none">
+                    ₹ <%= Math.round(listing.monthlyPrice * 1.18).toLocaleString() %>
+                  </span>
+                  <span class="per-night"> / month</span>
+                
+                <% } else { %>
+                  <span>Price not available</span>
+                <% } %>
               </span>
-          
               <% if (listing.reviews && listing.reviews.length > 0) { %>
                 <div class="rating-line">
                   ⭐ <%= listing.avgRating %>
@@ -340,14 +354,17 @@
       const gstPrices = document.querySelectorAll(".gst-price");
   
       basePrices.forEach((price, i) => {
-        if (toggle.checked) {
-          price.classList.add("d-none");
-          gstTexts[i].classList.add("d-none");
-          gstPrices[i].classList.remove("d-none");
-        } else {
-          price.classList.remove("d-none");
-          gstTexts[i].classList.remove("d-none");
-          gstPrices[i].classList.add("d-none");
+        // Safe check in case arrays don't match exactly
+        if (gstTexts[i] && gstPrices[i]) {
+          if (toggle.checked) {
+            price.classList.add("d-none");
+            gstTexts[i].classList.add("d-none");
+            gstPrices[i].classList.remove("d-none");
+          } else {
+            price.classList.remove("d-none");
+            gstTexts[i].classList.remove("d-none");
+            gstPrices[i].classList.add("d-none");
+          }
         }
       });
     });

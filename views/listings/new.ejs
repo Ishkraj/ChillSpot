@@ -12,7 +12,6 @@
         novalidate
         enctype="multipart/form-data"
       >
-        <!-- Title -->
         <div class="mb-3">
           <label for="title" class="form-label">Title</label>
           <input
@@ -25,7 +24,6 @@
           <div class="valid-feedback">Title looks good</div>
         </div>
 
-        <!-- Description -->
         <div class="mb-3">
           <label for="description" class="form-label">Description</label>
           <textarea
@@ -37,7 +35,6 @@
           <div class="invalid-feedback">Description should be valid</div>
         </div>
 
-        <!-- Upload Images -->
         <div class="mb-3">
           <label for="imageUpload" class="form-label">Upload Images</label>
           <input
@@ -51,9 +48,6 @@
           <div id="previewContainer" class="mt-3 d-flex flex-wrap gap-3"></div>
         </div>
 
-        <!-- ========================================== -->
-        <!-- 🔥 HYBRID PRICING LOGIC ADDED HERE         -->
-        <!-- ========================================== -->
         <div class="mb-3">
           <label for="pricingType" class="form-label">What kind of stay is this?</label>
           <select name="listing[pricingType]" id="pricingType" class="form-select" required>
@@ -64,7 +58,6 @@
         </div>
 
         <div class="row">
-          <!-- Daily Price (Hidden if Monthly is selected) -->
           <div class="mb-3 col-md-6" id="dailyPriceDiv">
             <label for="price" class="form-label">Daily Price (₹ / night)</label>
             <input
@@ -78,7 +71,6 @@
             <div class="invalid-feedback">Daily price is required</div>
           </div>
 
-          <!-- Monthly Price (Hidden by default) -->
           <div class="mb-3 col-md-6" id="monthlyPriceDiv" style="display: none;">
             <label for="monthlyPrice" class="form-label">Monthly Rent (₹ / month)</label>
             <input
@@ -91,9 +83,27 @@
             <div class="invalid-feedback">Monthly rent is required</div>
           </div>
         </div>
-        <!-- ========================================== -->
 
-        <!-- Location -->
+        <div class="card mb-4 mt-2 border-0 bg-light">
+          <div class="card-body">
+            <div class="form-check form-switch fs-5">
+              <input 
+                class="form-check-input" 
+                type="checkbox" 
+                role="switch" 
+                id="instantBookToggle" 
+                name="listing[isInstantBook]" 
+                value="true"
+              >
+              <label class="form-check-label ms-2" for="instantBookToggle">
+                <b>⚡ Enable Instant Book</b>
+              </label>
+            </div>
+            <p class="text-muted mt-2 mb-0" style="font-size: 0.9rem;">
+              If enabled, guests won't need your manual approval to confirm their stay. Booking will be auto-accepted upon request.
+            </p>
+          </div>
+        </div>
         <div class="mb-3">
           <label for="location" class="form-label">Location</label>
           <input
@@ -106,7 +116,6 @@
           <div class="invalid-feedback">Location should be valid</div>
         </div>
 
-        <!--- Exact Location Link-->
         <div class="mb-3">
           <label class="form-label">Google Maps Exact Location Link</label>
           <input
@@ -118,7 +127,6 @@
           />
         </div>
 
-        <!-- Category -->
         <div class="mb-3">
           <label for="category" class="form-label">Category</label>
           <select
@@ -140,7 +148,6 @@
           <div class="invalid-feedback">Please choose a category</div>
         </div>
 
-        <!-- Country -->
         <div class="mb-3">
           <label for="country" class="form-label">Country</label>
           <input
@@ -153,14 +160,12 @@
           <div class="invalid-feedback">Country should be valid</div>
         </div>
 
-        <!-- Submit -->
         <button class="btn btn-dark add-btn">ADD</button>
         <br /><br />
       </form>
     </div>
   </div>
 
-  <!-- JavaScript for image preview AND dynamic pricing fields -->
   <script>
     // 1. DYNAMIC PRICING LOGIC
     const pricingType = document.getElementById("pricingType");
