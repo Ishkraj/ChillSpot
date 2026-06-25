@@ -13,19 +13,16 @@
         id="editListingForm"
       >
 
-        <!-- Title -->
         <div class="mb-3">
           <label class="form-label">Title</label>
           <input name="listing[title]" type="text" class="form-control" value="<%= listing.title %>" required />
         </div>
 
-        <!-- Description -->
         <div class="mb-3">
           <label class="form-label">Description</label>
           <textarea name="listing[description]" class="form-control" rows="3" required><%= listing.description %></textarea>
         </div>
 
-        <!-- Existing Images (Deletable with red X) -->
         <div class="mb-3">
           <label class="form-label">Current Images</label>
           <div class="d-flex flex-wrap gap-3" id="existingImages">
@@ -38,42 +35,66 @@
           </div>
         </div>
 
-        <!-- Hidden input for deleted images -->
         <input type="hidden" name="deleteImages" id="deleteImagesInput" />
 
-        <!-- Upload New Images -->
         <div class="mb-3">
           <label class="form-label">Upload New Images</label>
           <input name="listing[images]" class="form-control" type="file" multiple accept="image/*" />
         </div>
 
-        <!-- Price -->
+        <div class="mb-3">
+          <label for="pricingType" class="form-label">What kind of stay is this?</label>
+          <select name="listing[pricingType]" id="pricingType" class="form-select" required>
+            <option value="Daily" <%= listing.pricingType === 'Daily' ? 'selected' : '' %>>Short-term / Daily Stays (Hotel style)</option>
+            <option value="Monthly" <%= listing.pricingType === 'Monthly' ? 'selected' : '' %>>Long-term / Monthly Rent (PG/Flat style)</option>
+            <option value="Both" <%= listing.pricingType === 'Both' ? 'selected' : '' %>>Both (Daily & Monthly Options)</option>
+          </select>
+        </div>
+
         <div class="row">
-          <div class="col-md-4 mb-3">
-            <label class="form-label">Price</label>
-            <input name="listing[price]" type="number" class="form-control" value="<%= listing.price %>" required />
+          <div class="col-md-6 mb-3" id="dailyPriceDiv" style="<%= listing.pricingType === 'Monthly' ? 'display: none;' : 'display: block;' %>">
+            <label class="form-label">Daily Price (₹ / night)</label>
+            <input name="listing[price]" type="number" id="dailyPriceInput" class="form-control" value="<%= listing.price || '' %>" <%= listing.pricingType !== 'Monthly' ? 'required' : '' %> />
+            <div class="invalid-feedback">Daily price is required</div>
           </div>
 
-          <div class="col-md-8 mb-3">
-            <label class="form-label">Location</label>
-            <input name="listing[location]" type="text" class="form-control" value="<%= listing.location %>" required />
+          <div class="col-md-6 mb-3" id="monthlyPriceDiv" style="<%= listing.pricingType === 'Daily' ? 'display: none;' : 'display: block;' %>">
+            <label class="form-label">Monthly Rent (₹ / month)</label>
+            <input name="listing[monthlyPrice]" type="number" id="monthlyPriceInput" class="form-control" value="<%= listing.monthlyPrice || '' %>" <%= listing.pricingType !== 'Daily' ? 'required' : '' %> />
+            <div class="invalid-feedback">Monthly rent is required</div>
           </div>
+        </div>
+        <div class="card mb-4 mt-2 border-0 bg-light">
+          <div class="card-body">
+            <div class="form-check form-switch fs-5">
+              <input 
+                class="form-check-input" 
+                type="checkbox" 
+                role="switch" 
+                id="instantBookToggle" 
+                name="listing[isInstantBook]" 
+                value="true"
+                <%= listing.isInstantBook ? 'checked' : '' %>
+              >
+              <label class="form-check-label ms-2" for="instantBookToggle">
+                <b>⚡ Enable Instant Book</b>
+              </label>
+            </div>
+            <p class="text-muted mt-2 mb-0" style="font-size: 0.9rem;">
+              If enabled, guests won't need your manual approval to confirm their stay. Booking will be auto-accepted upon request.
+            </p>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Location</label>
+          <input name="listing[location]" type="text" class="form-control" value="<%= listing.location %>" required />
         </div>
 
         <div class="mb-3">
           <label class="form-label">Google Maps Link</label>
-        
-          <input
-            type="url"
-            name="listing[mapLink]"
-            class="form-control"
-            value="<%= listing.mapLink %>"
-            required
-          />
+          <input type="url" name="listing[mapLink]" class="form-control" value="<%= listing.mapLink %>" required />
         </div>
         
-
-        <!-- Category -->
         <div class="mb-3">
           <label class="form-label">Category</label>
           <select name="listing[category]" class="form-select" required>
@@ -84,13 +105,11 @@
           </select>
         </div>
 
-        <!-- Country -->
         <div class="mb-3">
           <label class="form-label">Country</label>
           <input name="listing[country]" type="text" class="form-control" value="<%= listing.country %>" required />
         </div>
 
-        <!-- Submit -->
         <button class="btn btn-dark">UPDATE</button>
         <br>
         <br>
@@ -98,12 +117,43 @@
     </div>
   </div>
 
-  <!-- Script: Handle Deletion and Form Submission -->
   <script>
+    // 1. DYNAMIC PRICING LOGIC
+    const pricingType = document.getElementById("pricingType");
+    const dailyPriceDiv = document.getElementById("dailyPriceDiv");
+    const monthlyPriceDiv = document.getElementById("monthlyPriceDiv");
+    const dailyPriceInput = document.getElementById("dailyPriceInput");
+    const monthlyPriceInput = document.getElementById("monthlyPriceInput");
+
+    pricingType.addEventListener("change", function() {
+      if (this.value === "Daily") {
+        dailyPriceDiv.style.display = "block";
+        dailyPriceInput.required = true;
+        
+        monthlyPriceDiv.style.display = "none";
+        monthlyPriceInput.required = false;
+        monthlyPriceInput.value = ""; // Hide & clear monthly
+      } 
+      else if (this.value === "Monthly") {
+        dailyPriceDiv.style.display = "none";
+        dailyPriceInput.required = false;
+        dailyPriceInput.value = ""; // Hide & clear daily
+        
+        monthlyPriceDiv.style.display = "block";
+        monthlyPriceInput.required = true;
+      } 
+      else if (this.value === "Both") {
+        dailyPriceDiv.style.display = "block";
+        dailyPriceInput.required = true;
+        
+        monthlyPriceDiv.style.display = "block";
+        monthlyPriceInput.required = true;
+      }
+    });
+
+    // 2. IMAGE DELETION LOGIC
     const deleteButtons = document.querySelectorAll(".delete-image-btn");
     const deleteImagesInput = document.getElementById("deleteImagesInput");
-    const existingImages = document.getElementById("existingImages");
-
     let imagesToDelete = [];
 
     deleteButtons.forEach((btn) => {

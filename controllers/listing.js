@@ -203,12 +203,20 @@ module.exports.updateListing = async (req, res) => {
   // ✅ Manually update fields
   listing.title = req.body.listing.title;
   listing.description = req.body.listing.description;
-  listing.price = req.body.listing.price;
   listing.location = req.body.listing.location;
   listing.mapLink = req.body.listing.mapLink;
   listing.country = req.body.listing.country;
   listing.category = req.body.listing.category;
-   // 🔥 FIXED
+  
+  // 🔥 HYBRID PRICING FIX
+  listing.pricingType = req.body.listing.pricingType;
+  listing.price = req.body.listing.price || null;
+  listing.monthlyPrice = req.body.listing.monthlyPrice || null;
+
+  // ⚡ INSTANT BOOK TOGGLE FIX
+  // Agar checkbox uncheck hua toh req.body.listing.isInstantBook undefined hoga.
+  // !! (double NOT) lagane se ye undefined ko false aur 'true' ko true mein convert kar dega.
+  listing.isInstantBook = !!req.body.listing.isInstantBook;
 
   // Delete images
   if (req.body.deleteImages) {
