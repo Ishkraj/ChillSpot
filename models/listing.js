@@ -52,7 +52,9 @@ const listingSchema = new Schema(
     },
     confidenceScore: {
       type: Number,
-      default: 0,
+      default: 75,
+      min: 0,
+      max: 100,
     },
   },
   {

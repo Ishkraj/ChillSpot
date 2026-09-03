@@ -24,13 +24,14 @@ const Booking = require("./models/booking");
 
 
 
+
 // routes
 
 const listingRouter = require("./routes/listing.js");
 const bookingRouter = require("./routes/booking");
 const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
-
+require("./jobs/feedbackReminder");
 
 
 

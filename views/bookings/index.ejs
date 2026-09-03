@@ -33,4 +33,156 @@
     <% } %>
   </p>
 
+
+  <!-- ================================= -->
+  <!-- HOST BEHAVIOUR FEEDBACK -->
+  <!-- ================================= -->
+
+  <% 
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const checkInDate = new Date(b.checkIn);
+    checkInDate.setHours(0, 0, 0, 0);
+  %>
+
+  <% if (
+    b.status === "confirmed" &&
+    today >= checkInDate &&
+    !b.hostBehaviorFeedback?.submittedAt
+  ) { %>
+
+    <div class="card p-3 my-3">
+      <h5>🤝 How was the host's behaviour?</h5>
+
+      <p class="text-muted">
+        Tell us about your experience with the host.
+      </p>
+
+      <form
+        action="/bookings/<%= b._id %>/host-feedback"
+        method="POST"
+      >
+
+        <label class="form-label">
+          <strong>Rating</strong>
+        </label>
+
+        <select
+          name="rating"
+          class="form-select mb-3"
+          required
+        >
+          <option value="">Select rating</option>
+          <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
+          <option value="4">⭐⭐⭐⭐ Good</option>
+          <option value="3">⭐⭐⭐ Average</option>
+          <option value="2">⭐⭐ Poor</option>
+          <option value="1">⭐ Very Poor</option>
+        </select>
+
+        <label class="form-label">
+          <strong>Comment</strong>
+        </label>
+
+        <textarea
+          name="comment"
+          class="form-control mb-3"
+          rows="3"
+          placeholder="How did the host treat you?"
+        ></textarea>
+
+        <button type="submit" class="btn btn-primary">
+          Submit Host Feedback
+        </button>
+
+      </form>
+    </div>
+
+  <% } else if (
+    b.hostBehaviorFeedback?.submittedAt
+  ) { %>
+
+    <div class="alert alert-success">
+      ✅ Host behaviour feedback submitted
+      — <%= b.hostBehaviorFeedback.rating %>/5
+    </div>
+
+  <% } %>
+
+
+  <!-- ================================= -->
+  <!-- PROPERTY ACCURACY FEEDBACK -->
+  <!-- ================================= -->
+
+  <% 
+    const checkOutDate = new Date(b.checkOut);
+    checkOutDate.setHours(0, 0, 0, 0);
+  %>
+
+  <% if (
+    b.status === "confirmed" &&
+    today >= checkOutDate &&
+    !b.propertyAccuracyFeedback?.submittedAt
+  ) { %>
+
+    <div class="card p-3 my-3">
+      <h5>🏡 Did the property match the listing?</h5>
+
+      <p class="text-muted">
+        Tell us whether the actual property matched the
+        photos and description.
+      </p>
+
+      <form
+        action="/bookings/<%= b._id %>/property-feedback"
+        method="POST"
+      >
+
+        <label class="form-label">
+          <strong>Rating</strong>
+        </label>
+
+        <select
+          name="rating"
+          class="form-select mb-3"
+          required
+        >
+          <option value="">Select rating</option>
+          <option value="5">⭐⭐⭐⭐⭐ Exactly as shown</option>
+          <option value="4">⭐⭐⭐⭐ Mostly accurate</option>
+          <option value="3">⭐⭐⭐ Average</option>
+          <option value="2">⭐⭐ Not very accurate</option>
+          <option value="1">⭐ Completely different</option>
+        </select>
+
+        <label class="form-label">
+          <strong>Comment</strong>
+        </label>
+
+        <textarea
+          name="comment"
+          class="form-control mb-3"
+          rows="3"
+          placeholder="Did the property match the photos and description?"
+        ></textarea>
+
+        <button type="submit" class="btn btn-primary">
+          Submit Property Feedback
+        </button>
+
+      </form>
+    </div>
+
+  <% } else if (
+    b.propertyAccuracyFeedback?.submittedAt
+  ) { %>
+
+    <div class="alert alert-success">
+      ✅ Property accuracy feedback submitted
+      — <%= b.propertyAccuracyFeedback.rating %>/5
+    </div>
+
+  <% } %>
+
 <% }) %>
